@@ -1,0 +1,117 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<center>
+
+    
+    <div id="gauge-container" style="visibility: ;">
+        <div class="gauge">
+            <div class="gauge__body">
+              <div class="gauge__fill"></div>
+              <div class="gauge__cover"></div>
+            </div>
+          </div>
+    </div>
+   
+</center>
+
+
+
+<center> <h1> This is the main page </h1> 
+
+        <form action="" method="POST"> {%csrf_token%}
+
+        <input type="text" id="keyword_form" name="keyword_form">
+        <input type="submit" value="Optimize" id="optimize" onclick="add_to_optimization()" name="optimize">
+
+        </form>
+        
+    
+
+<br>
+<br>
+<br>
+
+
+<div id="seo-container" style="visibility: None;"> 
+<h3> This is the In-page optimization section </h3>
+<form method="POST" id="seo-form" enctype="multipart/form-data">  {%csrf_token%}
+    
+    Title: {{optimization_form.title}} <br>
+    Description: {{optimization_form.description}} <br>
+    Tags: {{optimization_form.tags}} <br>
+    Thumbnail: {{optimization_form.thumbnail}} <br>
+    <input type="submit" value="Save" name="save">
+</form>
+
+<form method="POST"> {%csrf_token%}
+    <input type="text" value="Test Input">
+
+    <input type="submit" value="submit" name="testbutton">
+</form>
+
+<br>
+<p>Popular Searches On YouTube Based on Your Keyword</p>
+{%for tag in tags%}
+
+  {{tag}},
+
+{% endfor %}
+<br>
+
+
+<li id="first-point"> 
+
+    Put your title in the first line of your Description
+
+</li>
+<li id="50-words"> 
+
+    Write up to 50 words 
+
+</li>
+<li id="partial-matches"> 
+
+    Partial matches of your title in the Description 
+
+</li>
+<br>
+
+<p id="desc_checker">  </p> <br>
+<p id="new_p"></p>
+
+
+<form action="{% url 'thumbnails'%}">
+    <input type="submit" value="View Thumbnails" name="ViewThumbnails"> <br>
+    <textarea name="user_keyword" id="user_keyword" cols="20" rows="1" style="visibility: hidden;"></textarea>
+    
+</form>
+
+
+
+<div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for video in YTVideos %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ video.thumbnail }}" alt="" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
+            <div class="card-body">
+              <p class="card-text">{{ video.title }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                </div>
+                <small class="text-muted">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</center>
+ {% endblock %}

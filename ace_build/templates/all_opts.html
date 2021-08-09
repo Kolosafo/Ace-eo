@@ -1,0 +1,12 @@
+ {% for opt in opts %}
+<center> 
+<img class="bd-placeholder-img card-img-top" width="30%" height="30" src="{{thumbnail.url}}" alt="" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
+{{opt}} 
+ <a href = "{% url 'compare_vid' opt.id %}"> Compare Video With Potential Competitor </a>
+ <a href = "{% url 'read_opt' opt.id %}"> Read </a>
+ <a href = "{% url 'edit_opt' opt.id %}"> Edit </a>
+</center>
+
+
+
+  {%endfor%}

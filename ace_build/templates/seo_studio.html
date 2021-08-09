@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<center>
+
+    
+    <div id="gauge-container">
+        <div class="gauge">
+            <div class="gauge__body">
+              <div class="gauge__fill"></div>
+              <div class="gauge__cover"></div>
+            </div>
+          </div>
+    </div>
+   
+</center>
+
+
+    <center><h1>This is the Seo Studio page</h1>
+
+
+        <form method="POST"> {%csrf_token%}
+             Title: {{form.title}} <br>
+              Description: {{form.description}} <br>
+              Tags: {{form.tags}} <br>
+            <input type="submit" value="Save">
+        </form>
+
+
+        <li id="first-point"> 
+
+    Put your title in the first line of your Description
+
+</li>
+<li id="50-words"> 
+
+    Write up to 50 words 
+
+</li>
+<li id="partial-matches"> 
+
+    Partial matches of your title in the Description 
+
+</li>
+<br>
+
+<p id="desc_checker">  </p> <br>
+<p id="new_p"></p>
+
+
+<form action="{% url 'thumbnails'%}">
+    <input type="submit" value="View Thumbnails" name="ViewThumbnails"> <br>
+    <textarea name="user_keyword" id="user_keyword" cols="20" rows="1" style="visibility: hidden;"></textarea>
+    
+</form>
+        </center>
+        
+        
+{% endblock  %}
+
+
+        
+
+
+</body>
+</html>
+
+
+
+
+
+

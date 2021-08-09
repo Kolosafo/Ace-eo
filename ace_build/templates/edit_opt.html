@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Opt</title>
+    
+    
+    
+
+</head>
+<body>
+    
+<center>
+ 
+
+<form method="POST" enctype="multipart/form-data"> {%csrf_token%}
+             Title: {{form.title}} <br>
+              Description: {{form.description}} <br>
+              Tags: {{form.tags}} <br>
+              Thumbnail: {{form.thumbnail}}
+            <input type="submit" value="Save">
+        </form>
+            
+
+    
+     <p id="first-point" style="text-decoration: None">Dude, just strike me off already!</p> 
+
+
+</center> 
+<script>
+console.log("Hi")
+var x = document.getElementById("id_description").value;
+if (x.includes("keyword")){
+     document.getElementById("first-point").style = "text-decoration: line-through";
+          }
+    function strikeoff(){
+    var x = document.getElementById("id_description").value;
+    var newx = []
+    var words = x.split(" ")
+    newx.push(words)
+    console.log(newx)
+    length = newx.length;
+    for (var i=0; i<length; i++){
+        xx = newx[i]
+        var n = xx.includes("keyword");
+        if (n){
+          
+          document.getElementById("first-point").style = "text-decoration: line-through";
+          }else if(!n){
+              document.getElementById("first-point").style = "text-decoration: None";
+          }
+          
+          
+      
+        };
+    }
+      
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<center> <h1> This is the home page</h1>
+
+
+Redirects to different pages of the app
+
+
+<form action="" method="POST"> {% csrf_token %}
+
+    <textarea name="keyword_form" id="" cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea>
+    <input type="submit" value="Optimize"> 
+
+</form>
+
+<br>
+<br>
+
+             <br>
+
+
+    <br>
+
+
+   Difficulty - {{competition}} <br>
+    The total view count of the top 10 videos for this keyword is {{ReadableTVC}} <br>
+   {{trends_data}} <br>
+
+
+   SUGGESTED SEARCH TERMS:
+{% for search_term in suggested %}
+
+    
+    <a href=""> {{search_term}} </a> <br>
+
+    {% endfor %}
+    
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+        </head>
+        <body>
+        
+        <h2>Videos Based On Keyword</h2>
+        
+        <table>
+          <tr>
+            <th>Title</th>
+            
+          </tr>
+          {% for video in video_titles %}
+          <tr>
+            <td>{{video}}</td>
+          </tr>
+             {%endfor%}
+    
+
+          <!-- <th>Description</th>
+
+          {% for tag in video_tags %}
+          <tr>
+            <td>{{tag}}</td>
+          </tr>
+          {%endfor%}
+            </tr> -->
+
+        </table>
+
+</center>
+{% endblock %}
