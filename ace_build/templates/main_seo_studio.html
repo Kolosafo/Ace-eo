@@ -50,7 +50,7 @@
 <h3> This is the In-page optimization section </h3>
 <form method="POST" id="seo-form" enctype="multipart/form-data">  {%csrf_token%}
     
-    Title: {{optimization_form.title}} <br>
+    Title: <p value="{{user_keyword}}">{{optimization_form.title}}</p> <br>
     Description: {{optimization_form.description}} <br>
     Tags: {{optimization_form.tags}} <br>
     Thumbnail: {{optimization_form.thumbnail}} <br>

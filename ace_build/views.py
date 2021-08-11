@@ -78,16 +78,20 @@ def home (request):
     video_tags = []
     all_keywords = []
     if request.method=='POST':
-        user_keyword_holder =  request.POST.get('keyword_form')
-        user_keyword = user_keyword_holder.strip()
+        if request.POST.get("Optimize"):
+            user_keyword = request.POST.get('keyword_form')
+            return redirect("/main/main_seo_studio/"+user_keyword)
+        if request.POST.get("Search"):
+            user_keyword_holder =  request.POST.get('keyword_form')
+            user_keyword = user_keyword_holder.strip()
 
-        if user_keyword:
-            suggested = tags_getter(user_keyword)
-            all_keywords.append(suggested)
-            videos = Video_data(user_keyword)
-            Competition, ReadableTVC = keyword_tool(user_keyword)
-            trends_data = trends(user_keyword)
-    
+            if user_keyword:
+                suggested = tags_getter(user_keyword)
+                all_keywords.append(suggested)
+                videos = Video_data(user_keyword)
+                Competition, ReadableTVC = keyword_tool(user_keyword)
+                trends_data = trends(user_keyword)
+        
     else:
         videos = None
         suggested = None
@@ -95,6 +99,7 @@ def home (request):
         Competition = None
         trends_data = None
         ReadableTVC = None
+        
     
         
     context = {'videos': videos, 'suggested': suggested, 'Competition': Competition, 'ReadableTVC': ReadableTVC, 'trends_data': trends_data}
@@ -186,17 +191,11 @@ def test_view1():
     
     
 @login_required(login_url='login')
-def main_seo_studio (request):
+def main_seo_studio (request, user_keyword):
     #Calling the keyword Explore function
-    keyword_explore = keyword_tool()
-
 
     #Getting Suggested keywords and pasting them as tags
-    try:
-        user_keyword = request.GET['keyword_form']
-        tags = tags_getter(user_keyword)
-    except KeyError:
-        tags = tags_getter('ace-eo')
+    tags = tags_getter(user_keyword)
 
 
     #This is the keyword reseacrh "Dummy" form
@@ -219,7 +218,8 @@ def main_seo_studio (request):
     context ={
         "keyword_research_form": keyword_research_form,
      "optimization_form": optimization_form,
-     "tags": tags
+     "tags": tags,
+     "user_keyword": user_keyword
      }
     return render (request, 'main_seo_studio.html', context)
 
