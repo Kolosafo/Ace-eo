@@ -23,16 +23,16 @@ Redirects to different pages of the app
     <br>
 
 
-   Difficulty - {{competition}} <br>
-    The total view count of the top 10 videos for this keyword is {{ReadableTVC}} <br>
-   {{trends_data}} <br>
+   Difficulty - {{Competition}} <br><br>
+    The total view count of the top 10 videos for this keyword is {{ReadableTVC}} <br><br>
+   {{trends_data}} <br><br>
 
 
    SUGGESTED SEARCH TERMS:
 {% for search_term in suggested %}
 
-    
-    <a href=""> {{search_term}} </a> <br>
+    <br>
+    <a href="#"> {{search_term}} </a> 
 
     {% endfor %}
     
@@ -63,12 +63,17 @@ Redirects to different pages of the app
             <th>Title</th>
             
           </tr>
-          {% for video in video_titles %}
-          <tr>
-            <td>{{video}}</td>
+          {% for video in videos %}
+          <tr id="video_info">
+            <td>{{video.title}}</td>
+            <td id="tag-{{forloop.counter}}" >-{{video.tags}}
+              <button id="copy-tag-{{forloop.counter}}" onclick="getID_Copytags(this)">COPY TAG</button>
+            </td> 
           </tr>
              {%endfor%}
-    
+          </table>
+          
+        
 
           <!-- <th>Description</th>
 
@@ -79,7 +84,65 @@ Redirects to different pages of the app
           {%endfor%}
             </tr> -->
 
-        </table>
+    <script>
+
+      // Get the ID of the button that was clicked
+      function getID_Copytags(btn){
+        var tag_Btn_Id = btn.id;
+        alert(btn.id)
+
+      //Initializing Getting the individual tag according to the button clicked
+      tag_id = ""
+      tag = document.getElementById(tag_id)
+
+      //Finding out what button was clicked
+
+      switch(tag_Btn_Id){
+        case "copy-tag-0":
+            tag_id = "tag-0";
+          break;
+        case "copy-tag-1":
+          tag_id = "tag-1";
+            break;
+        case "copy-tag-2":
+          tag_id = "tag-2";
+            break;
+        case "copy-tag-3":
+          tag_id = "tag-3";
+            break;
+        case "copy-tag-4":
+          tag_id = "tag-4";
+            break;
+        case "copy-tag-5":
+          tag_id = "tag-5";
+            break;
+        case "copy-tag-6":
+          tag_id = "tag-6";
+            break;
+        case "copy-tag-7":
+          tag_id = "tag-7";
+            break;
+        case "copy-tag-8":
+          tag_id = "tag-8";
+            break;
+        default:
+          tag_id = "tag-0";
+                   }
+
+      
+      //Copy the tag the coreesponds to the right button clicked
+
+      let ourText = tag.innerText;
+      let textarea = document.createElement('textarea');
+      textarea.width = '1px';
+      textarea.height = '1px';
+      textarea.value=ourText
+      document.body.append(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      textarea.style = "display: None"
+      }
+    </script>
 
 </center>
 {% endblock %}

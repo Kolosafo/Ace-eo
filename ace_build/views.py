@@ -8,7 +8,7 @@ from . forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from keyword_tool.views import keyword_tool
+from keyword_tool.views import keyword_tool, Video_data, trends
 import base64 
 
 
@@ -84,18 +84,20 @@ def home (request):
         if user_keyword:
             suggested = tags_getter(user_keyword)
             all_keywords.append(suggested)
-            for keywords in all_keywords:
-                videos, competition, ReadableTVC, trends_data = keyword_tool(keywords)
-        
-            for video in videos:
-                video_titles.append(video['title'])
-
+            videos = Video_data(user_keyword)
+            Competition, ReadableTVC = keyword_tool(user_keyword)
+            trends_data = trends(user_keyword)
+    
     else:
         videos = None
         suggested = None
+        all_keywords = None
+        Competition = None
+        trends_data = None
+        ReadableTVC = None
     
         
-    context = {'videos': videos, 'suggested': suggested, 'video_titles': video_titles, 'competition': competition,  'trends_data': trends_data, 'ReadableTVC': ReadableTVC}
+    context = {'videos': videos, 'suggested': suggested, 'Competition': Competition, 'ReadableTVC': ReadableTVC, 'trends_data': trends_data}
     return render(request, "home.html", context)
 
 
