@@ -9,13 +9,10 @@ Redirects to different pages of the app
 
 <form action="" method="POST"> {% csrf_token %}
 
-    <textarea name="keyword_form" id="" cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea>
+    <textarea oninput="getUserKeyword()" name="keyword_form" id="keyword_form" cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea>
     <input type="submit" value="Search" name="Search"> 
-    <input type="submit" value="Optimize" name="Optimize"> 
-
 </form>
 
-<br>
 <br>
 
 <br>
@@ -37,6 +34,15 @@ Redirects to different pages of the app
 
     {% endfor %}
     
+
+
+<form action="{% url 'main_seo_studio' %}" method="GET" style="display: none;" id="getKeywordForm" name="getKeywordForm">
+  <textarea name="keyword_getter" id="keyword_getter" cols="30" rows="10"></textarea>
+</form>
+
+
+<button form="getKeywordForm" id="keyword_btn">Optimize</button>
+
     <style>
         table {
           font-family: arial, sans-serif;
@@ -86,6 +92,17 @@ Redirects to different pages of the app
             </tr> -->
 
     <script>
+      
+      function getUserKeyword(){
+        var keywordInput = document.getElementById("keyword_form").value;
+        var keywordGetter = document.getElementById("keyword_getter"); 
+        keywordGetter.value = keywordInput
+      }
+
+      function theKeyword(){
+        var keyword = document.getElementById("keyword_getter").value; 
+      }
+      //THIS FUNCTION GETS TAGS
       var tag1 = document.getElementById("tag-2")
       console.log(tag1.innerHTML)
 
@@ -98,8 +115,7 @@ Redirects to different pages of the app
 
       //Initializing Getting the individual tag according to the button clicked
       function copyTags(){
-      // let tag_id = ""
-      // var tag = document.getElementById(tag_id)
+     
 
       //Finding out what button was clicked
 

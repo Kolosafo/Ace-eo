@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static'
             ],
         },
     },
@@ -123,10 +125,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "ace_build", "static"),
+STATIC_ROOT = (
+    os.path.join(BASE_DIR, "static")
 )
+
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, "ace_build", "static")
+]
+
+
 YOUTUBE_API_KEY = "AIzaSyBZ47b46bCuJfT9cw3AM__Rs1x2tcMxt8U"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')

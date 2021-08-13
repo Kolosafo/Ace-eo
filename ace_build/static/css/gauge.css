@@ -6,6 +6,10 @@
   color: #004033;
 }
 
+.p_tag{
+  background-color: red;
+  display: none;
+}
 .gauge__body {
   width: 100%;
   height: 0;

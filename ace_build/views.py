@@ -78,9 +78,6 @@ def home (request):
     video_tags = []
     all_keywords = []
     if request.method=='POST':
-        if request.POST.get("Optimize"):
-            user_keyword = request.POST.get('keyword_form')
-            return redirect("/main/main_seo_studio/"+user_keyword)
         if request.POST.get("Search"):
             user_keyword_holder =  request.POST.get('keyword_form')
             user_keyword = user_keyword_holder.strip()
@@ -99,10 +96,11 @@ def home (request):
         Competition = None
         trends_data = None
         ReadableTVC = None
+        user_keyword = None
         
     
         
-    context = {'videos': videos, 'suggested': suggested, 'Competition': Competition, 'ReadableTVC': ReadableTVC, 'trends_data': trends_data}
+    context = {'videos': videos, 'suggested': suggested, 'Competition': Competition, 'ReadableTVC': ReadableTVC, 'trends_data': trends_data,}
     return render(request, "home.html", context)
 
 
@@ -191,11 +189,12 @@ def test_view1():
     
     
 @login_required(login_url='login')
-def main_seo_studio (request, user_keyword):
+def main_seo_studio (request):
     #Calling the keyword Explore function
 
     #Getting Suggested keywords and pasting them as tags
-    tags = tags_getter(user_keyword)
+    keyword = request.GET['keyword_getter']
+    tags = tags_getter(keyword)
 
 
     #This is the keyword reseacrh "Dummy" form
@@ -219,7 +218,7 @@ def main_seo_studio (request, user_keyword):
         "keyword_research_form": keyword_research_form,
      "optimization_form": optimization_form,
      "tags": tags,
-     "user_keyword": user_keyword
+     "keyword": keyword
      }
     return render (request, 'main_seo_studio.html', context)
 

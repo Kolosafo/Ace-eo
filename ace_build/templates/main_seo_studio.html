@@ -3,9 +3,8 @@
 {% block content %}
 
 <center>
-
  <!-- Meter Guage to check best practices -->
-    <div id="gauge-container" style="visibility: ;">
+    <div id="gauge-container" style="visibility: null;">
         <div class="gauge">
             <div class="gauge__body">
               <div class="gauge__fill"></div>
@@ -49,8 +48,10 @@
 <div id="seo-container" style="visibility: None;"> 
 <h3> This is the In-page optimization section </h3>
 <form method="POST" id="seo-form" enctype="multipart/form-data">  {%csrf_token%}
+
+    <input type="text" value="{{keyword}}" id="id_keyword" style="display: none;">  <br>
     
-    Title: <p value="{{user_keyword}}">{{optimization_form.title}}</p> <br>
+    Title: {{optimization_form.title}} <br>
     Description: {{optimization_form.description}} <br>
     Tags: {{optimization_form.tags}} <br>
     Thumbnail: {{optimization_form.thumbnail}} <br>
@@ -96,7 +97,7 @@
 
 <form action="{% url 'thumbnails'%}">
     <input type="submit" value="View Thumbnails" name="ViewThumbnails"> <br>
-    <textarea name="user_keyword" id="user_keyword" cols="20" rows="1" style="visibility: hidden;"></textarea>
+    <textarea name="user_keyword" id="user_keyword" cols="20" rows="1" style="display: none;"></textarea>
     
 </form>
 
@@ -128,6 +129,21 @@
 </center>
 
 <script>
+
+$(document).ready(function() {
+  var keyword = document.getElementById('id_keyword').value
+  var title = document.getElementById('id_title')
+  var description = document.getElementById('id_description')
+  var tags = document.getElementById('id_tags')
+
+  title.value = keyword;
+  description.value = keyword;
+  tags.value =keyword;
+})
+
+
+
+
 
   const inpFile = document.getElementById("imgInp");
   const previewContainer =  document.getElementById("imagePreview");
