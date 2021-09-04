@@ -21,6 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('ace_build.urls')),
     path('keyword_tool/', include('keyword_tool.urls')),
+    path('thumbnail/', include('thumbnail.urls')),
+
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

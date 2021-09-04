@@ -4,6 +4,7 @@ from collections import Counter
 import re
 from pytrends.request import TrendReq
 
+import datetime as dt
 from django.conf import settings
 
 # Create your views here.
@@ -64,7 +65,7 @@ def trends(keyword):
 
         
         #print(trend)
-        return "The last Month's interest of " + "'" + kw +"'" + " compared to the last 3 Months " + " has changed by "+ str(trend)+"%"         
+        return str(trend)+"%"         
 
     for kw in all_keywords:
         keywords.append(kw)
@@ -78,6 +79,7 @@ def trends(keyword):
     
 def Video_data(user_keyword):
     videos = []
+    all_publish_dates = []
     API_KEY = settings.YOUTUBE_API_KEY
     search_url =  'https://www.googleapis.com/youtube/v3/search'
     video_url = 'https://www.googleapis.com/youtube/v3/videos'
@@ -92,7 +94,7 @@ def Video_data(user_keyword):
     search_params = {
         'part': 'snippet',
         'q': User_keyword,
-        'maxResults': 10,
+        'maxResults': 20,
         'key': API_KEY,
         'type': 'video'
 
@@ -100,8 +102,11 @@ def Video_data(user_keyword):
     #####
     video_ids = []
     #####
-    r = requests.get(search_url, params=search_params)
-    results = r.json()['items']
+    r = requests.get(search_url, params=search_params).json()
+    
+
+    results = r['items']
+
 
     for result in results:
         video_ids.append(result['id']['videoId']) 
@@ -111,7 +116,7 @@ def Video_data(user_keyword):
 
     video_params = {
         'key': API_KEY,
-        'maxResults': 10,
+        'maxResults': 20,
         'part': 'snippet, contentDetails, statistics',
         'id': ','.join(video_ids),
         
@@ -131,36 +136,33 @@ def Video_data(user_keyword):
 
                 
                 'title':data['snippet']['title'],
+                'description':data['snippet']['description'],
                 'id':data['id'],
                 'tags': data['snippet']['tags'],
-                'thumbnail':data['snippet']['thumbnails']['high']['url'],
+                'thumbnail':data['snippet']['thumbnails']['maxres']['url'],
                 'viewCount': data['statistics']['viewCount'],
+                'datePublished': data['snippet']["publishedAt"]
             }
         except KeyError:
 
                 video_data = {
                 'title':data['snippet']['title'],
+                'description':data['snippet']['description'],
                 'id':data['id'],
                 'thumbnail':data['snippet']['thumbnails']['high']['url'],
                 'viewCount': data['statistics']['viewCount'],
-            }
+                'datePublished': data['snippet']["publishedAt"]
 
+            }
+        
         
         videos.append(video_data)
-        #Getting Tags
-        
-    
-    # for video in videos:
-    #     video_titles.append(video['title'])
-    #     allVideo_views.append(video['viewCount'])
-    #     video_tags.append(video['tags'])
+
 
     context = {"videos": videos
      }
 
     return videos
-
-
 
 
 def keyword_tool(user_keyword):
@@ -184,7 +186,7 @@ def keyword_tool(user_keyword):
     search_params = {
         'part': 'snippet',
         'q': User_keyword,
-        'maxResults': 10,
+        'maxResults': 20,
         'key': API_KEY,
         'type': 'video'
 
@@ -203,7 +205,7 @@ def keyword_tool(user_keyword):
 
     video_params = {
         'key': API_KEY,
-        'maxResults': 10,
+        'maxResults': 20,
         'part': 'snippet, contentDetails, statistics',
         'id': ','.join(video_ids),
         
@@ -241,7 +243,6 @@ def keyword_tool(user_keyword):
         videos.append(video_data)
         #Getting Tags
         
-    
     for video in videos:
         video_titles.append(video['title'])
         allVideo_views.append(video['viewCount'])
@@ -265,14 +266,13 @@ def keyword_tool(user_keyword):
     for match in matches:
         occurance.append(match)
     Opt_strength = len(occurance)
-    competition = str(Opt_strength) + ' Out Of the top 10 Videos have these Phrase in search Results '   
+    competition = str(Opt_strength) + ' Out Of the top 20 Videos have these Phrase in search Results '   
     
 
     #We get the total view count of the top 10 videos below code
     viewCount = ([int(x) for x in allVideo_views])
     totalViewCount = sum(viewCount) 
     ReadableTVC = "{:,}".format(totalViewCount)
-    print(ReadableTVC)
 
 
     context = {"videos": videos, 
@@ -283,7 +283,7 @@ def keyword_tool(user_keyword):
     'ReadableTVC': ReadableTVC
      }
 
-    return competition, ReadableTVC
+    return competition, ReadableTVC, Opt_strength
 
 
 #TOTAL VIEW COUNT FUNCTION
@@ -295,7 +295,6 @@ def all_videoViews_count():
     
     totalViewCount = sum(viewCount) 
     ReadableTVC = "{:,}".format(totalViewCount)
-    print(ReadableTVC)
 
     return ReadableTVC
 
@@ -324,8 +323,37 @@ def competition(user_keyword):
     #print(len(occurance))
 
     Opt_strength = len(occurance)
-    competition = str(Opt_strength) + ' Out Of the top 10 Videos have these Phrase in search Results '
+    competition = str(Opt_strength) + ' Out Of the top 20 Videos have these Phrase in search Results '
     return competition
 
 
+
+
+def searchVolume(keyword):
+
+    content = []
+    averageSearchVolume = []
+    #Specify content type and form the request body
+    headers = {'Content-Type': 'application/json'}
+    job_params = {
+        'q': keyword,
+        "scraper": "google_msv", 
+    }
+    #Post job and get response
+    response = requests.post(
+        'https://rt.serpmaster.com',
+        headers=headers,
+        json=job_params,
+        auth=('daudakolo16', 'aU7gR5q4ku')
+    )
+    data = response.json()
+    results = data['results']
+ 
+    for result in results:
+        content.append(result['content']['seeds'])
+
+    for data in content[0]:
+        averageSearchVolume.append(data['averageSearchVolume'])
+
+    return averageSearchVolume
 

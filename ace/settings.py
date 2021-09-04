@@ -26,7 +26,11 @@ SECRET_KEY = '2ujjb28lp#_x%=-pktce5=z43k*glu9(q&pvf4w!hqw@o-(^x&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+       'localhost',
+   '.ngrok.io',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ace_build',
     'keyword_tool',
+    'thumbnail'
 ]
 
 MIDDLEWARE = [
@@ -123,17 +128,17 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
-
-STATIC_ROOT = (
-    os.path.join(BASE_DIR, "static")
-)
+MEDIA_URL = '/media/'
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, "ace_build", "static")
+   os.path.join(BASE_DIR, "ace_build", "static"),
+   os.path.join(BASE_DIR, "thumbnail", "static")
+
 ]
 
+#This key runs from daudakolo16@gmail.com
+YOUTUBE_API_KEY = "AIzaSyDvcwOlbjyFIuenGHS_7gLIlNqtsX95KTg"
 
-YOUTUBE_API_KEY = "AIzaSyBZ47b46bCuJfT9cw3AM__Rs1x2tcMxt8U"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')

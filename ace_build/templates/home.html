@@ -1,185 +1,471 @@
 {% extends 'main.html' %}
 
+
 {% block content %}
-<center> <h1> This is the home page</h1>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Home</title>
+     <!-- Bootstrap CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- fontawesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+ 
+     <!-- style css -->
+     <link rel="stylesheet" href="../static/fiverr_css/fiverrstyle.css">
 
 
-Redirects to different pages of the app
+  <!-- <style>
+    .home-gauge {
+  width: 100%;
+  max-width: 250px;
+  font-family: "Roboto", sans-serif;
+  font-size: 32px;
+  color: #004033;
+}
 
+.p_tag{
+  background-color: red;
+  display: none;
+}
+.home-gauge__body {
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+  background: #b4c0be;
+  position: relative;
+  border-top-left-radius: 100% 200%;
+  border-top-right-radius: 100% 200%;
+  overflow: hidden;
+}
 
-<form action="" method="POST"> {% csrf_token %}
+.home-gauge__fill {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: 100%;
+  /* background: black; */
+  transform-origin: center top;
+  transform: rotate(0.25turn);
+  transition: transform 0.2s ease-out;
+}
 
-    <textarea oninput="getUserKeyword()" name="keyword_form" id="keyword_form" cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea>
-    <input type="submit" value="Search" name="Search"> 
+.home-gauge__cover {
+  width: 75%;
+  height: 150%;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 25%;
+  box-sizing: border-box;
+}
+
+  </style> -->
+</head>
+<body>
+  <br><br>
+ <center>
+  <form action="" method="POST"> {% csrf_token %}
+    <textarea name="keyword_form" id="keyword_form" cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea>
+    <input type="submit" id="keywordSearch" value="Search" name="Search"> 
 </form>
+ </center> 
 
-<br>
-
-<br>
-
-
-<br>
+  
 
 
-   Difficulty - {{Competition}} <br><br>
-    The total view count of the top 10 videos for this keyword is {{ReadableTVC}} <br><br>
-   {{trends_data}} <br><br>
+
+    <!-- main wrapper -->
+    <section class="wrapper py-5">
+      <div class="container" id="data-display-wrapper">
+          <div class="row">
+              <div class="col-md-6 m-auto">
+                  <h2><span class="fw-bold">Keyword Overview:</span> <span class="stat" id="searchedKeyword"></span></h2>
+              </div>
+              <div class="col-md-6 m-auto">
+                <p id="gaugeValue" style="display: none;"></p>
+                  <div class="js-gauge demo gauge"></div>
+              </div>
+          </div>
+
+          <div class="row mt-4">
+              <div class="col-lg-3 col-md-6 p-2">
+                  <div class="card">
+                      <div class="card-body">
+                        {% for searchVolume in search_volume %}
+                          <h4 class="mb-0">                 
+                            <p id="id_searchVolume" style="display:none">{{searchVolume}}</p>
+                              SEARCH VOLUME <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="searchVolumeValue">HIGH</span>
+                          </h4>
+                          {% endfor %}
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-md-6 p-2">
+                  <div class="card">
+                      <div class="card-body">
+                          <h4 class="mb-0">
+                    <!-- this the view totaln number of times keyword appears in title amongs the first 20 videos-->
+                              <p id="diff_data" style="display:none">{{UKC}} </p>
+                              SEO DIFFICULTY <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="SeoValue">EASY</span>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-md-6 p-2">
+                  <div class="card">
+                      <div class="card-body">
+                          <h4 class="mb-0">
+                          <!-- Competiton will work with our comp algorithm below -->
+                              COMPETITION <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="compValue">HIGH</span>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-md-6 p-2">
+                  <div class="card">
+                      <div class="card-body">
+                          <h4 class="mb-0">
+                             INTEREST OVER TIME <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="interest" id="interestValue">{{trends_data}}</span> <span class="fa fa-arrow-up text-success"></span>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+          </div>
+         
 
 
-   SUGGESTED SEARCH TERMS:
-{% for search_term in suggested %}
-
-    <br>
-    <a href="#"> {{search_term}} </a> 
-
-    {% endfor %}
-    
-
-
-<form action="{% url 'main_seo_studio' %}" method="GET" style="display: none;" id="getKeywordForm" name="getKeywordForm">
-  <textarea name="keyword_getter" id="keyword_getter" cols="30" rows="10"></textarea>
-</form>
-
-
-<button form="getKeywordForm" id="keyword_btn">Optimize</button>
-
-    <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-        }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-        </style>
-        </head>
-        <body>
-        
-        <h2>Videos Based On Keyword</h2>
-        
-        <table>
-          <tr>
-            <th>Title</th>
-            
-          </tr>
-          {% for video in videos %}
-          <tr id="video_info">
-            <td>{{video.title}}</td>
-            <td id="tag-{{forloop.counter}}">-{{video.tags}}
-              <button id="copy-tag-{{forloop.counter}}" onclick="getID(this); copyTags()">COPY TAG</button>
-            </td> 
-          </tr>
-             {%endfor%}
+          <table class="table mt-4">
+              <tr>
+                  <td class="border-0">
+                      <img src="../static/fiverr_img/incog.png" class="img-fluid" alt="">
+                  </td>
+                  <td class="border-0 bg-light ps-5">
+                      <p class="mb-0 fs-20">
+                          You might get suggested next to one of the videos below by copying their tags and title (Do this if you feel both your contents are on <a href="" class="text-danger">same topic</a> )
+                      </p>
+                  </td>
+              </tr>
           </table>
-          
-        
 
-          <!-- <th>Description</th>
 
-          {% for tag in video_tags %}
-          <tr>
-            <td>{{tag}}</td>
-          </tr>
-          {%endfor%}
-            </tr> -->
 
-    <script>
+          <div class="row mt-4">
+              <div class="col-md-3">
+                  <!-- Related Searches Table -->
+                  <table class="table">
+                      <tr>
+                          <td class="border-0" colspan="2">
+                              <h4>Related Searches <a href="" class="btn ml-3 d-inline-block btn-danger">Copy All</a></h4>
+                          </td>
+                      </tr>
+
+                      {% for search_term in suggested %}
+                      <tr>
+                          <td class="border p-2">
+                              <span class="tag">{{search_term}}</span>
+                          </td>
+                          <td class="border p-2 text-center">
+                              <a href="" class="btn btn-info">copy</a>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                      
+                  </table>
+                  <!-- Table Ends Here -->
+              </div>
+
+              <div class="col-md-7">
+                  <h4 class="text-uppercase">Trending Video</h4>
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <table class="table mb-0">
+                              <tr>
+                                  <th class="text-center">Thumnail</th>
+                                  <th class="text-center">Title</th>
+                                  <th class="text-center">Views</th>
+                                  <th class="text-center">Date Published</th>
+                              </tr>
+                              <!-- TRENDING VIDEOS SECTION -->
+                              <tr>
+                                  <td class="text-center">
+                                    <img src="../static/fiverr_img/thumb.jpg" class="img-fluid" alt="">
+                                  </td>
+                                  <td class="text-center">
+                                      Lorem
+                                  </td>
+                                  <td class="text-center">
+                                      Trainers in BLUE
+                                  </td>
+                                  <td class="text-center">
+                                      $55
+                                  </td>
+                              </tr>
+                              <!-- TRENDING VIDEOS SECTION ENDS HERE -->
+                          </table>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-2 mt-auto">
+                  <button class="btn btn-success text-uppercase btn-block" onclick="getUserKeyword() " form="getKeywordForm" id="keyword_btn">
+                      Optimize
+                  </button>
+              </div>
+          </div>
+         
+      </div>
+  </section>
+  <!-- main wrapper -->
+
+
+
+  
+<!-- <center> <h1> This is the home page</h1>
+  Redirects to different pages of the app
+  
+
+  <div id="data-display-wrapper">
+
+    GUAGE ELEMENT 
+
+    <div id="home-gauge-container" style="display: none;">
+      <div class="home-gauge">
+          <div class="home-gauge__body">
+            <div class="home-gauge__fill" style="visibility: hidden;"></div>
+            <div class="home-gauge__cover"></div>
+          </div>
+        </div>
+  </div>
+
+        <div id="data-display">
+          {% for searchVolume in search_volume %}
+          Search Volume - <p id="id_searchVolume">{{searchVolume}}</p>  <br>
+            {% endfor %}
+
+          <p id="diff_data">Difficulty - {{UKC}} </p>
+          <p id="trends-data">  The total view count of the top 20 videos for this keyword is {{UKTV}}
+            {{trends_data}}</p> 
+        </div>
+
+          <div id="related-searches">
+            SUGGESTED SEARCH TERMS:
+            {% for search_term in suggested %}
+                <br>
+                <a href="#"> {{search_term}} </a> 
+                {% endfor %}
+          </div>
+
+          <button onclick="getUserKeyword(); verifySearchValue(); " form="getKeywordForm" id="keyword_btn">Optimize</button>
+
+          Overall Score
+          <p id="overall-score" style="font-size: x-large;"> Overall Score </p>
+
+
+        </div> -->
+
+
+
+    
+  
+  
+  
+  
+  
+          <!-- NONE DISPLAY ELEMENTS -->
+          <p style="display: none;" id= 'title_occurance'> {{title_occurance}}</p>
+          <p style="display: none;" id="user_keyword">{{user_keyword}}</p>
+          <div class="none-display-elements" style="display: none;">
+            <form action="{% url 'main_seo_studio' %}" method="GET" style="display: none;" id="getKeywordForm" name="getKeywordForm">
+              <textarea name="keyword_getter" id="keyword_getter" cols="30" rows="10"></textarea>
+            </form>
+  
+          <table>
+            <tr>
+              <th>Title</th>
+            </tr>
+            {% for video in videos %}
+            <tr id="video_info">
+              <td id="title-{{forloop.counter}}">{{video.title}} 
+                 <button id="copy-tag-{{forloop.counter}}" onclick="getID(this); copyTags();">COPY TAG</button>
+              </td>
+              <td style="display: none;" id="tag-{{forloop.counter}}">{{video.tags}}
+              </td> 
+            </td>
+            <td style="display: none;" id="description-{{forloop.counter}}">{{video.description}} </td> 
+            </td>
+            <td style="display: null;" id="viewCount-{{forloop.counter}}">{{video.viewCount}} </td> 
+            </tr>
+               {%endfor%}
+            </table>
+          </div>
+  
       
-      function getUserKeyword(){
-        var keywordInput = document.getElementById("keyword_form").value;
-        var keywordGetter = document.getElementById("keyword_getter"); 
-        keywordGetter.value = keywordInput
-      }
+  <script>
 
-      function theKeyword(){
-        var keyword = document.getElementById("keyword_getter").value; 
-      }
-      //THIS FUNCTION GETS TAGS
-      var tag1 = document.getElementById("tag-2")
-      console.log(tag1.innerHTML)
+    //TURNING EVERYTHING OFF BEFORE USERS SEARCHES A KEYWORD
+    //This works if the keyword form is "None"
 
-      // Get the ID of the button that was clicked
-      function getID(btn){
-        globalThis.tag_Btn_Id = btn.id;
-        //alert(btn.id)
-            }
-      
 
-      //Initializing Getting the individual tag according to the button clicked
-      function copyTags(){
-     
-
-      //Finding out what button was clicked
-
-      switch(tag_Btn_Id){
-        case "copy-tag-1":
-          globalThis.tag = document.getElementById("tag-1").innerText
-            alert(tag)
-          break;
-        case "copy-tag-2":
-          globalThis.tag = document.getElementById("tag-2").innerText
-            alert(tag)
-            break;
-        case "copy-tag-3":
-          globalThis.tag = document.getElementById("tag-3").innerText
-            alert(tag)
-            break;
-        case "copy-tag-4":
-        globalThis.tag = document.getElementById("tag-4").innerText
-            alert(tag)
-            break;
-        case "copy-tag-5":
-          globalThis.tag = document.getElementById("tag-5").innerText
-            alert(tag)
-            break;
-        case "copy-tag-6":
-          globalThis.tag = document.getElementById("tag-6").innerText
-            alert(tag)
-            break;
-        case "copy-tag-7":
-          globalThis.tag = document.getElementById("tag-7").innerText
-            alert(tag)
-            break;
-        case "copy-tag-8":
-          globalThis.tag = document.getElementById("tag-8").innerText
-            alert(tag)
-            break;
-        case "copy-tag-9":
-          globalThis.tag = document.getElementById("tag-9").innerText
-            alert(tag)
-            break;
-        case "copy-tag-10":
-          globalThis.tag = document.getElementById("tag-10").innerText
-            alert(tag)
-            break;
-        default:
-          globalThis.tag = document.getElementById("tag-1").innerText
-            alert(tag)
-      }
-
-      
-
-      //Copy the tag the coreesponds to the right button clicked
-
-      let ourText = tag;
-      let textarea = document.createElement('textarea');
-      textarea.width = '1px';
-      textarea.height = '1px';
-      textarea.value = ourText;
-      document.body.append(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      textarea.style = "display: None"
+    $(document).ready(function() {
+      var keyword_form = document.getElementById("keyword_form").textContent;
+      console.log(keyword_form)
+    if ( keyword_form == "None"){
+        document.getElementById("data-display-wrapper").style="display: none;"
     }
-    </script>
+    else{document.getElementById("data-display-wrapper").style="display: ;"}   
+    document.getElementById("searchedKeyword").innerText = keyword_form
+  
+    });
+   
 
-</center>
+//GETTING USER KEYWORD
+var user_keyword = document.getElementById("user_keyword").textContent;
+console.log(user_keyword)
+
+//SETTING KEYWORD FORM FOR OPTIMIZATION PAGE ONCLICK
+var keyword_form = document.getElementById("keyword_form")
+
+if (user_keyword != ''){
+  keyword_form.textContent = user_keyword
+}
+    
+//COMPETITION SYNTAX
+
+//Each time keyword appears in meta subtract 1.67
+
+let video_comp = 100
+
+var get_title_occurance = document.getElementById("title_occurance").textContent
+var title_occurance = parseFloat(get_title_occurance)
+
+
+//adding title occurance value to video comp since we got the occurance using django already
+
+video_comp += (title_occurance * -1.67)
+
+
+
+//WE HAVE THE TITLE RETURNED NOW WE FIND MATCHES IN THE DESCRIPTION AND TAGS
+var video_description = []
+var video_tag = []
+var get_video_viewCount= []
+var video_viewCount= []
+
+
+for ( let i=1; i<21; i++){
+    video_description[i] = document.getElementById("description-"+i).textContent.toLowerCase()
+    video_tag[i] = document.getElementById("tag-"+i).textContent.toLowerCase()
+    get_video_viewCount[i] = document.getElementById("viewCount-"+i).textContent
+
+    video_viewCount[i] = parseFloat(get_video_viewCount[i]) 
+
+    //Adding view count to competition difficulty
+    if (video_viewCount[i] >= 100000){
+        video_comp -= 3
+    }
+}
+
+
+for ( let i=1; i<11; i++){
+
+//Checking keyword occurance in Tgas
+if (video_tag[i].includes(user_keyword)){
+
+  video_comp-=1.67
+ }
+
+
+//Checking keyword occurance in Description
+ if ( video_description[i].includes(user_keyword)){
+
+  video_comp-=1.67
+ }
+
+
+ }
+
+//Competiton should never go below 0
+if (video_comp <= 0){
+  video_comp = 10
+}
+console.log("Competition Algo - "+video_comp)
+
+
+//SEARCH VOLUME ALGORITHM
+var search_algo_value = 0
+
+//SEARCH VOLUME SHOULD BE GOTTEN FROM SEARCH VOLUME DATA (CODECANYON)
+
+get_search_volume = document.getElementById("id_searchVolume").textContent
+search_volume = parseFloat(get_search_volume)
+console.log(search_volume)
+
+if( search_volume <= 1000)
+    {
+      search_algo_value += 25
+    }
+else if(search_volume > 100000){
+  search_algo_value += 100
+}
+else if (search_volume <= 25000){
+  search_algo_value += 50
+
+}
+
+else if (search_volume <= 50000)
+{
+  search_algo_value += 75
+}
+
+else if( search_volume <= 75000)
+{
+  search_algo_value += 90
+
+}
+else if( search_volume <= 100000)
+{
+  search_algo_value += 100
+};
+
+
+
+
+console.log( "Search Volume Score " + search_algo_value);
+
+//OVERALL SCORE 
+//The overall score is goping to be subtracted by 100 i.e the higher the overall score the better is it for ranking
+const overallScore = (video_comp + search_algo_value) / 2
+
+console.log("Overall Score: " + overallScore.toString())
+var addOverallScore = document.getElementById("gaugeValue")
+addOverallScore.innerText = overallScore.toString();
+
+//GUAGE ELEMENT 
+getValue =  document.getElementById("gaugeValue").textContent
+getValue = overallScore;
+   
+
+  </script>
+    <script src="../static/fiverr_jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+    <script src="../static/fiverr_gauge/kuma-gauge.jquery.js"></script>
+    <script src="../static/fiverr_js/main.js"></script>
+
+</body>
+</html>
 {% endblock %}

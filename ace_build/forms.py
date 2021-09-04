@@ -10,8 +10,8 @@ class Optimization_form(ModelForm):
         model = Optimization
         fields = ['title', 'description', 'tags', 'thumbnail']
         widgets = {
-            'description' : forms.Textarea(attrs={'oninput': 'strikeoff()',}),
-        }
+            'description' : forms.Textarea(attrs={'oninput': 'strikeoff()',} )
+        }   
 
 class Keyword_Research_form(ModelForm):
     class Meta:
