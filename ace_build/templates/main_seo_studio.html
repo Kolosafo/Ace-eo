@@ -24,7 +24,7 @@
 </head>
 <body>
   
-
+    <input type="text" value="{{keyword}}" id="id_keyword" style="display: none;">
 
    <!-- main wrapper -->
    <section class="wrapper py-5">
@@ -55,19 +55,18 @@
                     </div>
                     <!-- TOP VIDEOS FOR LOOP HERE -->
                    <div class="searchField p-2">
-                   {% for video in videos %}
+                   {% for video in display_videos %}
                         <div class="row">
                             <div class="col-4">
                                 <img src="{{ video.thumbnail }}" class="img-fluid" alt="">
                             </div>
-                            <div class="col-8">
+                            <div class="col-8" id="video_info-{{forloop.counter}}" >
 
-                                <p class="mb-0" id="title-{{forloop.counter}}" style="font-size:12px">{{video.title}}</p>
-                                <p style="display: none; overflow:hidden;"  class="mb-1" id="description-{{forloop.counter}}">{{video.description}} </p>
-                                <p class="mb-2" style="display: null; font-size:10px; opacity: 60%;" id="viewCount-{{forloop.counter}}">Views-{{video.viewCount}} </p> 
-                                <p class="mb-2" id="date-{{forloop.counter}}" style="font-size:10px; opacity: 60%;">Date Published{{video.datePublished}}</p> 
+                                <p class="mb-0" id="title-{{forloop.counter}}" style="font-size:12px">{{video.display_titles}}</p>
+                                <p class="mb-2" style="display: null; font-size:10px; opacity: 60%;" id="viewCount-{{forloop.counter}}">Views-{{video.display_viewCount}} </p> 
+                                <p class="mb-2" id="date-{{forloop.counter}}" style="font-size:10px; opacity: 60%;">{{video.display_dates}}</p> 
                                 <button id="copy-tag-{{forloop.counter}}" class="btn btn-info ms-0" onclick="getID(this); copyTags();">COPY TAG</button>
-                                <p style="display: none;" id="tag-{{forloop.counter}}">{{video.tags}} </p>
+                                <p style="display: none;" id="tag-{{forloop.counter}}">{{video.display_tags}} </p>
                               
                               
                                 <!-- <a href="" class="btn btn-info ms-0">copy</a> -->
@@ -89,19 +88,20 @@
                         <h4 class="mb-0">Metadata SEO</h4>
                     </div>
                     <div class="p-2">
-                        <form action="">
+                        <form action="" method="POST">  {%csrf_token%}
                             <div class="mb-3">
                                 <label for="">Title</label>
-                                <input type="text" class="form-control" placeholder="Enter title" name="" id="">
+                                {{optimization_form.title}} 
                             </div>
                             <div class="my-3">
                                 <label for="">Description</label>
-                                <textarea name="" class="form-control" id="" cols="30" rows="10"></textarea>
+                                {{optimization_form.description}}
                             </div>
                             <div class="mt-3">
                                 <label for="">Tags</label>
-                                <input required name="tags" class="form-control" placeholder="write some tags" value="tag">
+                                {{optimization_form.tags}}
                             </div>
+                            <input type="submit" class="btn btn-success px-4" value="SAVE" name="save" id="saveBtn" style="display:none"> 
                         </form>
                     </div>
                 </div>
@@ -143,19 +143,19 @@
                             <li class="fs-13" id="50-words">
                                 Write up to 50 words
                             </li>
-                            <li class="fs-13">
+                            <li class="fs-13" id="relevantTags">
                                 Use releavant tags (use add button below)
                             </li>
-                        </ul>   
+                        </ul> 
+
+                          <p id="getTagsFunc" style="display: none;">{{tags}}</p>
+                
                         <form action="">
                         
-                            <textarea name="tags" class="form-control" id="" cols="30" rows="3">
-                              {%for tag in tags%}
-                                  {{tag}},
-                              {% endfor %}
+                            <textarea name="tags" class="form-control" id="theTags" cols="30" rows="3">                                                           
                             </textarea>
                             <div class="text-end mt-3">
-                                <button class="btn btn-info">ADD</button>
+                                <a class="btn btn-info" id="addBtn" onclick="addtoTags()">ADD</a>
                             </div>
                         </form>
                     </div>
@@ -165,15 +165,15 @@
 
             <div class="col-12 mt-4">
                 <div class="text-end">
-                  <form action="{% url 'view_current_opt'%}">
-                    <input type="submit" class="btn btn-danger px-4" value="VIEW" name="ViewThumbnails" onclick="getMeta()"> <br>
+                  <form action="{% url 'main:view_current_opt'%}" style="display: none;"> 
+                    <input id="viewBtn" type="submit" class="btn btn-danger px-4" value="VIEW" name="ViewThumbnails" onclick="getMeta()"> <br>
                     <textarea name="opt_title" id="opt_title" cols="20" rows="1" style="display: None;"></textarea>
                     <textarea name="opt_description" id="opt_description" cols="20" rows="1" style="display: None ;"></textarea>
-                    <textarea name="opt_tags" id="opt_tags" cols="20" rows="1" style="display: None;"></textarea>      
+                    <textarea name="opt_tags" id="opt_tags" cols="20" rows="1" style="display: None;"></textarea>        
                   </form> 
-                    <input type="submit" class="btn btn-success px-4" value="SAVE" name="save">                 
-                    <!-- <button class="btn btn-danger px-4">VIEW</button>
-                    <button class="btn btn-success px-4">SAVE</button> -->
+                    <button class="btn btn-success px-4" id="decoySaveBtn" onclick=" saveBtnClick()">SAVE</button> 
+                    <button class="btn btn-danger px-4" id="decoyViewBtn" onclick=" viewBtnClick()">VIEW</button> 
+
                 </div>
             </div>
         </div>
@@ -195,9 +195,19 @@
   
     title.value = keyword;
     description.value = keyword;
-    tags.value =keyword;
+    tags.value = keyword;
+    console.log("this is the keyword "+keyword)
+
   })
-  
+  var getTagsFunc = document.getElementById("getTagsFunc").textContent
+  var removeWhiteSpace = getTagsFunc.replace(/[\s()-]+/gi, '')
+  var cleanTags = removeWhiteSpace.replace(/[\[\]']+/g,'')
+  console.log(cleanTags)
+  console.log("Again Not cached")
+
+
+    theTags = document.getElementById("theTags")
+    theTags.innerText= cleanTags
   
   //GETTING DATE AND DIFFERENCE
   var dates = []
@@ -231,7 +241,7 @@
   for (let i=0; i<21; i++){
   
   if (allDateDifference[i] <= 1.5){
-    document.getElementById("video_info-" + (i+1)).style="background-color: Red;"
+    document.getElementById("video_info-" + (i+1)).style="background-color: #f05252;"
   }
   
   else if (allDateDifference[i] <= 3.5){
@@ -239,20 +249,31 @@
   }
   
   else if (allDateDifference[i] <= 5.5){
-    document.getElementById("video_info-" + (i+1)).style="background-color: Yellow;"
+    document.getElementById("video_info-" + (i+1)).style="background-color: #f6e67b;"
   }
   
   }
+//ADD TO TAGS FUNCTION
+function addtoTags(){
+document.getElementById("addBtn").textContent = "Added!"
+document.getElementById("id_tags").value = cleanTags 
+document.getElementById("relevantTags").style.textDecoration = "line-through"
+}
+//DYNAMICALLY CLICKING ABUTTON AFTER ANOTHER BUTTON IS CLICKED -- CAUSE CSS IS F'ED
+
+function saveBtnClick(){
+    document.getElementById("saveBtn").click()
+}
+
+function viewBtnClick(){
+    document.getElementById("viewBtn").click()
+}
   
   
   </script>
-<script src="../static/fiverr_jquery/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
-<!-- <script src="fiverr_gauge/kuma-gauge.jquery.js"></script>
-<script src="fiverr_tagify/jQuery.tagify.min.js"></script> -->
-<script src="../static/fiverr_js/main.js"></script>
+
 
 
 </html>
@@ -260,8 +281,7 @@
 {% endblock %}
 
 
-<!-- 
-<center>
+<!-- <center>
  Meter Guage to check best practices
     <div id="gauge-container" style="visibility: null;">
         <div class="gauge">

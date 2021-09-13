@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Redirecting Loader</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="/loader_style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="loader-wrapper">
+
+
+
+<div class='body'>
+  <span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+  <div class='base'>
+    <span></span>
+    <div class='face'></div>
+  </div>
+</div>
+<div class='longfazers'>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<h1>    RTX ON!</h1>
+</div>
+<!-- partial -->
+<script>
+  $(window).on("load", function(){
+    $('.loader-wrapper').fadeOut("slow");
+  });
+</script>
+  <script  src="/loader_script.js"></script>
+
+</body>
+</html>

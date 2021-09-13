@@ -1,14 +1,51 @@
- {% for opt in opts %}
-<center> 
-{% if opt.thumbnail%}
-<img class="bd-placeholder-img card-img-top" src="{{opt.thumbnail.url}}" alt="" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
-{% endif %}
-{{opt}} 
- <a href = "{% url 'compare_vid' opt.id %}"> Compare Video With Potential Competitor </a>
- <a href = "{% url 'read_opt' opt.id %}"> Read </a>
- <a href = "{% url 'edit_opt' opt.id %}"> Edit </a>
-</center>
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Cards</title>
+<link rel="stylesheet" href="../static/css/card_style.css">
+</head>
+<style>
+  .container {
+float: left;
+}
+.image {
+float: left;
+padding: 20px;
+}
+ 
+</style>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">
+  {% if user.is_authenticated %}
+  {% for opt in opts %}
+  {% if opt.user.id == user.id %}
+  <div class="image">
+  
+    <img class="image__img" src="../static/fiverr_img/thumb.jpg" alt="">
+  
+      <div class="image__overlay image__overlay--blur">
+        <center>
+          <div class="image__title">{{opt.title}}</div>
+        </center>
+        <form action="{% url 'thumbnail:compare_opt' opt.title %}">
+          <textarea style="display: none;" name="opt_title" id="opt_title" cols="30" rows="10">{{opt.title}}</textarea>
+         <input type="submit" value="Compare">
+        </form> 
+        <p class="edit"> <a style="color: white;" href="{% url 'main:edit_opt' opt.id %}">Edit</a></p>
+        <p class="delete"> <a style="color: white;" href="{% url 'main:read_opt' opt.id %}">  Read </a></p>
+      </div>
+  
+  
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+</div>
 
-
-
-  {%endfor%}
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+</body>
+</html>

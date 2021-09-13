@@ -52,8 +52,8 @@ gaugeValue = parseFloat(getValue)
         },
         label : {
             display : true,
-            left : 'Low',
-            right : 'High',
+            left : 'Bad',
+            right : 'Ace',
             fontFamily : 'Arial',
             fontColor : '#000',
             fontSize : '12',

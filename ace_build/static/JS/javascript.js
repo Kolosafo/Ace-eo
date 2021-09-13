@@ -173,11 +173,7 @@ setGaugetextContent(gaugeElement, textContentDefault);
 
 
       //tHIS FUNCTION GETS KEYWORD ENTERED BY USER
-      function getUserKeyword(){
-        var keywordInput = document.getElementById("keyword_form").textContent;
-        var keywordGetter = document.getElementById("keyword_getter"); 
-        keywordGetter.textContent = keywordInput
-      }
+ 
 
       function theKeyword(){
         var keyword = document.getElementById("keyword_getter").textContent; 
@@ -210,6 +206,7 @@ switch(tag_Btn_Id){
 
      
     break;
+  
   case "copy-tag-2":
     globalThis.tag = document.getElementById("tag-2").textContent
     document.getElementById("copy-tag-2").textContent = "Copied"

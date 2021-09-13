@@ -10,7 +10,32 @@ class Optimization_form(ModelForm):
         model = Optimization
         fields = ['title', 'description', 'tags', 'thumbnail']
         widgets = {
-            'description' : forms.Textarea(attrs={'oninput': 'strikeoff()',} )
+            'description' : forms.Textarea(
+                attrs={
+                    'oninput': 'strikeoff()',
+                    "class": "form-control",
+                    "cols": 30,
+                    "rows": 10,
+                    "label": "Description"
+            
+            } ),
+
+             'title' : forms.TextInput (
+                attrs={
+                    "placeholder": "Enter title",
+                    "class": "form-control",
+                    "label": "Title"
+            
+            } ),
+
+                'tags' : forms.TextInput (
+            attrs={
+                "placeholder": "write some tags",
+                "class": "form-control",
+                "label": "Tags",
+                "required name": "tags",
+                "value": "tags"  
+        } )
         }   
 
 class Keyword_Research_form(ModelForm):

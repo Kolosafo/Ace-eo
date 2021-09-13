@@ -12,7 +12,7 @@ from django.conf import settings
 from pytrends.request import TrendReq
 import numpy
 
-
+""" 
 def related_terms(keyword):
     url = 'http://suggestqueries.google.com/complete/search?client=youtube&ds=yt&client=firefox&q='+ keyword
 
@@ -76,6 +76,35 @@ def trends(keyword):
     return check_trends()
 
 
+"""
+
+def searchVolume(keyword):
+
+    content = []
+    averageSearchVolume = []
+    #Specify content type and form the request body
+    headers = {'Content-Type': 'application/json'}
+    job_params = {
+        'q': keyword,
+        "scraper": "google_msv", 
+    }
+    #Post job and get response
+    response = requests.post(
+        'https://rt.serpmaster.com',
+        headers=headers,
+        json=job_params,
+        auth=('daudakolo16', 'aU7gR5q4ku')
+    )
+    data = response.json()
+    results = data['results']
+ 
+    for result in results:
+        content.append(result['content']['seeds'])
+
+    for data in content[0]:
+        averageSearchVolume.append(data['averageSearchVolume'])
+
+    return averageSearchVolume
     
 def Video_data(user_keyword):
     videos = []
@@ -247,12 +276,6 @@ def keyword_tool(user_keyword):
         video_titles.append(video['title'])
         allVideo_views.append(video['viewCount'])
 
-    #print(video_tags)
-    #print(video_titles)
-    #print(video_tags)
-    # print(video_titles)
-    # print(video_views)
-
 
     #Occurance Function FOR COMPETITION
     PreTitles = ' '.join(video_titles) 
@@ -327,33 +350,4 @@ def competition(user_keyword):
     return competition
 
 
-
-
-def searchVolume(keyword):
-
-    content = []
-    averageSearchVolume = []
-    #Specify content type and form the request body
-    headers = {'Content-Type': 'application/json'}
-    job_params = {
-        'q': keyword,
-        "scraper": "google_msv", 
-    }
-    #Post job and get response
-    response = requests.post(
-        'https://rt.serpmaster.com',
-        headers=headers,
-        json=job_params,
-        auth=('daudakolo16', 'aU7gR5q4ku')
-    )
-    data = response.json()
-    results = data['results']
- 
-    for result in results:
-        content.append(result['content']['seeds'])
-
-    for data in content[0]:
-        averageSearchVolume.append(data['averageSearchVolume'])
-
-    return averageSearchVolume
 

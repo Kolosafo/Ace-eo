@@ -843,7 +843,7 @@ Version: 1.0
      border-radius: 2px;
      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
      overflow: hidden;
-     position: relative;
+     position: fixed;
 }
  .time {
      background: #f5234a none repeat scroll 0 0;

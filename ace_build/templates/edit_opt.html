@@ -1,3 +1,6 @@
+
+{% extends 'main.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +14,178 @@
 
 </head>
 <body>
+
+
+
+
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optimization Page</title>
+      <!-- Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+      <!-- fontawesome -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  
+      <!-- tagify -->
+      <link rel="stylesheet" href="../static/fiverr_tagify/tagify.css">
+  
+      <!-- style css -->
+      <link rel="stylesheet" href="../static/fiverr_css/fiverrstyle.css">
+</head>
+<body>
+     <!-- main wrapper -->
+   <section class="wrapper py-5">
+    <div class="container">
+        <div class="row mt-4">
+
+          <!-- TOP VIDEOS BAR (ON THE LEFT) -->
+          <div class="col-md-3 will100">
+            <div class="card  bg-light">
+                <div class="card-header bg-green text-center">
+                    <h4 class="mb-0">Top Videos</h4>
+                </div>
+                <!-- TOP VIDEOS FOR LOOP HERE -->
+                <table class="table mt-4">
+                    <tr>
+                        <td class="border-0 bg-light ps-5">
+                            <p class="mb-0 fs-20">
+                                You might get suggested next to one of the videos below by copying their tags and title (Do this if you feel both your contents are on <a href="" class="text-danger">same topic</a> )
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <!-- FOR LOOP ENDS HERE -->
+            </div>
+        </div>
+        <!-- ENDS HERE -->
+
+            <!-- META SEO SECTION -->
+            <div class="col-md-6 will100">
+                <div class="card h-100 bg-light">
+                    <div class="card-header bg-green text-center">
+                        <h4 class="mb-0">Metadata SEO</h4>
+                    </div>
+                    <div class="p-2">
+                        <form action="" method="POST">  {%csrf_token%}
+                            <div class="mb-3">
+                                <label for="">Title</label>
+                                    {{form.title}}
+                            </div>
+                            <div class="my-3">
+                                <label for="">Description</label>
+                                {{form.description}}
+                            </div>
+                            <div class="mt-3">
+                                <label for="">Tags</label>
+                                {{form.tags}} 
+                            </div>
+                         <input type="submit" class="btn btn-success px-4" value="SAVE" id="saveBtn" name="save" style="display: none;">                 
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ENDS HERE -->
+
+
+            <!-- OPTIMIZATION SECTION (RIGHT) -->
+            <div class="col-md-3 will100">
+                <div class="card bg-light h-100">
+                    <div class="card-header bg-green text-center">
+                        <h4 class="mb-0">Optimization Strentgh</h4>
+                    </div>
+                    <div class="p-2">
+                      
+                      <div id="gauge-container" style="visibility: null;">
+                        <div class="gauge">
+                            <div class="gauge__body">
+                              <div class="gauge__fill" style="visibility: hidden;"></div>
+                              <div class="gauge__cover"></div>
+                            </div>
+                          </div>
+                    </div>
+                        </div>
+                        
+                        <ul class="mt-3 text-starts">
+                            <li class="fs-13" id="first-point">
+                                Copy & Paste your title in the first line of your description
+                            </li>
+                            <li class="fs-13">
+                              Add anything to your life e.g. "2021"
+                          </li>
+                            <li class="fs-13">
+                                What is your video about? write in the description
+                            </li>
+                            <li class="fs-13" id="partial-matches">
+                                Use partial matches in your title and description
+                            </li>
+                            <li class="fs-13" id="50-words">
+                                Write up to 50 words
+                            </li>
+                        </ul>   
+                    </div>
+                </div>
+            </div>
+            <!-- ENDS HERE -->
+
+            <div class="col-12 mt-4">
+                <div class="text-end">
+                  <form action="{% url 'main:view_current_opt'%}" style="display: none;">
+                    
+                    <input type="submit" class="btn btn-danger px-4" value="VIEW" name="ViewThumbnails" id="viewBtn" onclick="getMeta()">       
+                    <textarea name="opt_title" id="opt_title" cols="20" rows="1" style="display: None;"></textarea>
+                    <textarea name="opt_description" id="opt_description" cols="20" rows="1" style="display: None ;"></textarea>
+                    <textarea name="opt_tags" id="opt_tags" cols="20" rows="1" style="display: None;"></textarea>      
+                  </form> 
+                    <button class="btn btn-danger px-4" id="decoyViewBtn" onclick="viewBtnClick()">VIEW</button>
+                    <button class="btn btn-success px-4" id="decoySaveBtn" onclick="saveBtnClick()">SAVE</button> 
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</section>
+
+<!-- main wrapper -->
+
+
+</body>
+<script>
+function saveBtnClick(){
+document.getElementById("saveBtn").click()
+}
+
+function viewBtnClick(){
+document.getElementById("viewBtn").click()
+}
+  
+</script>
+<script src="../static/fiverr_jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+</html>
+
+        
+{% endblock  %}
+
+
+    
+
+
+
+
+
+
+{% comment %} 
     
 <center>
  
@@ -59,4 +234,4 @@ if (x.includes("keyword")){
       
 </script>
 </body>
-</html>
+</html> {% endcomment %}

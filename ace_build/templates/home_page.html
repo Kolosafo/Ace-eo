@@ -1,0 +1,126 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<link rel="stylesheet" href="../static/css/card_style.css">
+
+<style>
+    body {
+    background-image: url(../static/images/Colored\ Shapes.svg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    overflow-x: hidden;
+  }
+  .container {
+float: left;
+}
+.image {
+float: left;
+padding: 20px;
+}
+ 
+ #allPages{
+     transform: translate(20%, 0%);
+     
+ }
+ @media (max-aspect-ratio: 16/9){
+
+ .container {
+flex-direction: column;
+
+}
+.image {
+float: left;
+padding: 20px;
+}
+.image{
+  position: relative;
+  width: 250px;
+}
+body {
+  background-image: url(../static/images/mobile_display.jpg);
+
+  }
+
+ }
+</style>
+
+<body>
+<br>
+<br>
+<div id="allPages">
+
+ <!-- partial:index.partial.html -->
+<div class="container">
+    <div class="image">
+    <a href="{% url 'main:home' %}">
+   <img class="image__img" src="../static/images/Home Img2/Analytics.jpg" alt="">
+    
+        <div class="image__overlay image__overlay--blur">
+          <center>
+            <div class="image__title">Keyword Research</div>
+          </center>
+        </div>
+    </a>
+    </div>
+ <div class="image">
+    <a href="{% url 'thumbnail:home_display' %}">
+   <img class="image__img" src="../static/images/Home Img2/Home page dispplay.jpg" alt="" style="width: 310px; height: 310px;">
+    
+        <div class="image__overlay image__overlay--blur">
+          <center>
+            <div class="image__title">Thumbnail Comparison</div>
+          </center>
+        </div>
+    </a>
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="image">
+    <a href="{% url 'main:seo_studio' %}">
+   <img class="image__img" src="../static/images/Home Img2/Seo studio.jpg" alt="" style="width: 310px; height: 310px;">
+    
+        <div class="image__overlay image__overlay--blur">
+          <center>
+            <div class="image__title">Seo Studio</div>
+          </center>
+        </div>
+    </a>
+    </div>
+
+
+
+    <div class="image">
+    <a href="{% url 'main:all_opts' %}">
+   <img class="image__img" src="../static/images/Home Img2/saved Opt.jpg" alt="" style="width: 310px; height: 310px;">
+    
+        <div class="image__overlay image__overlay--blur">
+          <center>
+            <div class="image__title">Saved Optimizations</div>
+          </center>
+        </div>
+    </a>
+    </div>
+
+  
+</div>
+
+</div>
+  <!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+</body>
+</html>
+
+{% endblock %}

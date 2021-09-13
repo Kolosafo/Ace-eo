@@ -9,6 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Home</title>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
      <!-- Bootstrap CSS -->
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -18,84 +23,204 @@
      <!-- style css -->
      <link rel="stylesheet" href="../static/fiverr_css/fiverrstyle.css">
 
+  
 
-  <!-- <style>
-    .home-gauge {
+<style>
+  body {
+  background-image: url(../static/images/whiteController2.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  overflow-x: hidden;
+}
+.formDiv{
+  transform: translate(5%, 130%);
+}
+@media (min-aspect-ratio: 16/9){
+  .mobileBTN{
+    display: none;
+  }
+  #keyword_form{
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid rgb(226, 224, 224);
+    float: left;
+    width: 40%;
+    background: rgb(213, 202, 243);
+    resize: none;
+    transform: translate(55%, 80%)
+
+  }
+  #keywordSearch{
+  float: left;
+  width: 5%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+  transform: translate(340%, 80%)
+
+  }
+  #keywordSearch:hover {
+  background: #0b7dda;
+}
+#keyword_form::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+}
+
+@media (max-aspect-ratio: 16/9){
+  body {
+  background-image: url(../static/images/mobile_display.jpg);
+
+  }
+	#gauge-0{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+	  }
+    .mobileBTN{
+    width: 150px;
+    transform: translate(80%, -20%)
+  }
+  #keyword_form{
+    padding: 10px;
+    height: 25px;
+    font-size: 11px;
+    border: 1px solid rgb(226, 224, 224);
+    float: left;
+    width: 64%;
+    background: rgb(213, 202, 243);
+    resize: none;
+    transform: translate(22%, 80%)
+
+  }
+  #keywordSearch{
+  float: left;
+  height: 25px;
+  width: 10%;
+  background: #2196F3;
+  color: white;
+  font-size: 9px;
+  border: 1px solid grey;
+  border-left: none;
+
+  transform: translate(42%, 80%)
+
+  }
+}
+
+
+
+/* #loaderDiv {
+  background: #000; 
+  width:      100%;
+  height:     100%; 
+  z-index:    10;
+  top:        0; 
+  left:       0;  
+} */
+
+.loader_bg{
+  position: fixed;
+  z-index: 999999;
+  background: #fff;
   width: 100%;
-  max-width: 250px;
-  font-family: "Roboto", sans-serif;
-  font-size: 32px;
-  color: #004033;
-}
-
-.p_tag{
-  background-color: red;
-  display: none;
-}
-.home-gauge__body {
-  width: 100%;
-  height: 0;
-  padding-bottom: 50%;
-  background: #b4c0be;
-  position: relative;
-  border-top-left-radius: 100% 200%;
-  border-top-right-radius: 100% 200%;
-  overflow: hidden;
-}
-
-.home-gauge__fill {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: inherit;
   height: 100%;
-  /* background: black; */
-  transform-origin: center top;
-  transform: rotate(0.25turn);
-  transition: transform 0.2s ease-out;
 }
-
-.home-gauge__cover {
-  width: 75%;
-  height: 150%;
-  background: #ffffff;
+.loader{
+  border: 0 soild transparent;
   border-radius: 50%;
+  width: 150px;
+  height: 150px;
   position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-
-  /* Text */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 25%;
-  box-sizing: border-box;
+  top: calc(50vh - 75px);
+  left: calc(50vw - 75px);
+}
+.loader:before, .loader:after{
+  content: '';
+  border: 1em solid #ff5733;
+  border-radius: 50%;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: loader 2s linear infinite;
+  opacity: 0;
+}
+.loader:before{
+  animation-delay: .5s;
+}
+@keyframes loader{
+  0%{
+      transform: scale(0);
+      opacity: 0;
+  }
+  50%{
+      opacity: 1;
+  }
+  100%{
+      transform: scale(1);
+      opacity: 0;
+  }
 }
 
-  </style> -->
-</head>
-<body>
-  <br><br>
+#LoadingTxt{
+  transform: translate(0%, 2000%);
+}
+
+</style>
+
+
+
+</head >
+<!-- <textarea name="keyword_form"  id="keyword_form"  cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea> -->
+<body onload="offLoader()">
+  <div class="loader_bg" id="loaderDiv" style="display: none;">
+    <div class="loader"></div>
+    <center>
+      <p id="LoadingTxt">Loading... Please Wait</p>
+
+    </center>
+</div>
+
+<br><br>
  <center>
-  <form action="" method="POST"> {% csrf_token %}
-    <textarea name="keyword_form" id="keyword_form" cols="35" rows="1" placeholder="Type In a Title or Keyword To Begin"></textarea>
-    <input type="submit" id="keywordSearch" value="Search" name="Search"> 
-</form>
+   <div class="formDiv">
+    <form action="" method="GET"> 
+      <input type="text" id="keyword_form" name="keyword_form" placeholder="Type In a Title or Keyword To Begin">
+      <input type="submit" id="keywordSearch" value="Search" name="Search"> 
+  </form>
+   </div>
+
  </center> 
 
-  
+
 
 
 
     <!-- main wrapper -->
-    <section class="wrapper py-5">
-      <div class="container" id="data-display-wrapper">
+    <div class="Allsections"  id="data-display-wrapper" style="display: none; background: white;">
+
+    <section class="wrapper py-5" style="background: white;">
+     
+      <div class="container">
           <div class="row">
               <div class="col-md-6 m-auto">
                   <h2><span class="fw-bold">Keyword Overview:</span> <span class="stat" id="searchedKeyword"></span></h2>
               </div>
               <div class="col-md-6 m-auto">
+                <br><br>
+                <h3><span style="font-weight: bold;">Overall:</span></h3>
                 <p id="gaugeValue" style="display: none;"></p>
                   <div class="js-gauge demo gauge"></div>
               </div>
@@ -108,7 +233,7 @@
                         {% for searchVolume in search_volume %}
                           <h4 class="mb-0">                 
                             <p id="id_searchVolume" style="display:none">{{searchVolume}}</p>
-                              SEARCH VOLUME <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="searchVolumeValue">HIGH</span>
+                              SEARCH VOLUME <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="searchVolumeValue"></span>
                           </h4>
                           {% endfor %}
                       </div>
@@ -118,9 +243,9 @@
                   <div class="card">
                       <div class="card-body">
                           <h4 class="mb-0">
-                    <!-- this the view totaln number of times keyword appears in title amongs the first 20 videos-->
-                              <p id="diff_data" style="display:none">{{UKC}} </p>
-                              SEO DIFFICULTY <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="SeoValue">EASY</span>
+                    <!-- this should be the ratio of views to searches -->
+                              <p id="totalViewCount" style="display:none">{{UKTV}} </p>
+                              SEO DIFFICULTY <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="SeoValue"></span>
                           </h4>
                       </div>
                   </div>
@@ -130,19 +255,18 @@
                       <div class="card-body">
                           <h4 class="mb-0">
                           <!-- Competiton will work with our comp algorithm below -->
-                              COMPETITION <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="compValue">HIGH</span>
+                              COMPETITION <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="condition" id="compValue"></span>
                           </h4>
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-md-6 p-2">
-                  <div class="card">
-                      <div class="card-body">
-                          <h4 class="mb-0">
-                             INTEREST OVER TIME <i class="fa fa-question-circle fs-14 text-dark-50"></i> <span class="interest" id="interestValue">{{trends_data}}</span> <span class="fa fa-arrow-up text-success"></span>
-                          </h4>
-                      </div>
-                  </div>
+         
+              <div class="mobileBTN">
+                <div class="col-md-2 mt-auto">
+                  <button class="btn btn-success text-uppercase btn-block" onclick="getUserKeyword() " form="getKeywordForm" id="keyword_btn">
+                      Optimize
+                  </button>
+              </div>
               </div>
           </div>
          
@@ -166,33 +290,40 @@
           <div class="row mt-4">
               <div class="col-md-3">
                   <!-- Related Searches Table -->
-                  <table class="table">
+                  <div class="searchField p-2" style="max-height: 500px;"> 
+                  <table class="table" >
+                    
                       <tr>
                           <td class="border-0" colspan="2">
-                              <h4>Related Searches <a href="" class="btn ml-3 d-inline-block btn-danger">Copy All</a></h4>
+
+                              <h4>Related Searches <button id="copyAllbtn" class="btn ml-3 d-inline-block btn-danger" onclick="copySuggested()"> Copy All </button></h4>
                           </td>
                       </tr>
-
+                      <p id="all_Suggestions" style="display: none;">{{suggested}}</p>
                       {% for search_term in suggested %}
                       <tr>
                           <td class="border p-2">
-                              <span class="tag">{{search_term}}</span>
-                          </td>
-                          <td class="border p-2 text-center">
-                              <a href="" class="btn btn-info">copy</a>
+                              <span class="tag">   
+                                <a href="{% url 'main:home' %}?keyword_form={{search_term}}&Search=Search ">{{search_term}}</a>
+                                </span>
                           </td>
                       </tr>
                       {% endfor %}
-                      
                   </table>
+                  </div>
                   <!-- Table Ends Here -->
               </div>
 
               <div class="col-md-7">
                   <h4 class="text-uppercase">Trending Video</h4>
+                  <div class="searchField p-2"  style="max-height: 500px; width: 1000px;"> 
+
                   <div class="card mt-3">
                       <div class="card-body">
+
                           <table class="table mb-0">
+                            
+
                               <tr>
                                   <th class="text-center">Thumnail</th>
                                   <th class="text-center">Title</th>
@@ -200,27 +331,33 @@
                                   <th class="text-center">Date Published</th>
                               </tr>
                               <!-- TRENDING VIDEOS SECTION -->
+                              {% for video in videos %}
                               <tr>
                                   <td class="text-center">
-                                    <img src="../static/fiverr_img/thumb.jpg" class="img-fluid" alt="">
+                                    <img src="{{ video.thumbnail }}" class="img-fluid" alt="">
                                   </td>
                                   <td class="text-center">
-                                      Lorem
+                                    {{video.title}}
                                   </td>
                                   <td class="text-center">
-                                      Trainers in BLUE
+                                    {{video.viewCount}}
                                   </td>
                                   <td class="text-center">
-                                      $55
+                                    {{video.datePublished}}
                                   </td>
                               </tr>
+                              {% endfor %}
                               <!-- TRENDING VIDEOS SECTION ENDS HERE -->
+
                           </table>
+
                       </div>
+                    </div>
+
                   </div>
               </div>
               <div class="col-md-2 mt-auto">
-                  <button class="btn btn-success text-uppercase btn-block" onclick="getUserKeyword() " form="getKeywordForm" id="keyword_btn">
+                  <button class="btn btn-success text-uppercase btn-block" onclick="ShowOpts()" form="getKeywordForm" id="keyword_btn">
                       Optimize
                   </button>
               </div>
@@ -229,56 +366,161 @@
       </div>
   </section>
   <!-- main wrapper -->
+</div>
+
+<div class="secondSection"  id="Opt_wrapper" style="display: none; background: white;">
+  <section class="wrapper py-5"  style="display:null; background: white;">
+    <div class="container">
+
+        <table class="table mt-4">
+            <tr>
+                <td class="border-0">
+                    <img src="../static/fiverr_img/incog.png" class="img-fluid" alt="">
+                </td>
+                <td class="border-0 bg-light ps-5">
+                    <p class="mb-0 fs-20">
+                        You might get suggested next to one of the videos below by copying their tags and title (Do this if you feel both your contents are on <a href="" class="text-danger">same topic</a> )
+                    </p>
+                </td>
+            </tr>
+        </table>
 
 
 
-  
-<!-- <center> <h1> This is the home page</h1>
-  Redirects to different pages of the app
-  
+        <div class="row mt-4">
 
-  <div id="data-display-wrapper">
+            <!-- TOP VIDEOS BAR (ON THE LEFT) -->
+            <div class="col-md-3 will100">
+                <div class="card  bg-light">
+                    <div class="card-header bg-green text-center">
+                        <h4 class="mb-0">Top Videos</h4>
+                    </div>
+                    <!-- TOP VIDEOS FOR LOOP HERE -->
+                   <div class="searchField p-2">
+                   {% for video in videos %}
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="{{ video.thumbnail }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-8" id="video_info-{{forloop.counter}}" >
 
-    GUAGE ELEMENT 
+                                <p class="mb-0" id="title-{{forloop.counter}}" style="font-size:12px">{{video.title}}</p>
+                                <p class="mb-2" style="display: null; font-size:10px; opacity: 60%;" id="viewCount-{{forloop.counter}}">Views-{{video.viewCount}} </p> 
+                                <p class="mb-2" id="date-{{forloop.counter}}" style="font-size:10px; opacity: 60%;">{{video.datePublished}}</p> 
+                                <button id="copy-tag-{{forloop.counter}}" class="btn btn-info ms-0" onclick="getID(this); copyTags();">COPY TAG</button>
+                                <p style="display: none;" id="tag-{{forloop.counter}}">{{video.tags}} </p>
+                              
+                              
+                                <!-- <a href="" class="btn btn-info ms-0">copy</a> -->
+                            </div>
+                        </div>
+                        <hr>
+               {%endfor%}
+              </div>
 
-    <div id="home-gauge-container" style="display: none;">
-      <div class="home-gauge">
-          <div class="home-gauge__body">
-            <div class="home-gauge__fill" style="visibility: hidden;"></div>
-            <div class="home-gauge__cover"></div>
-          </div>
+                    <!-- FOR LOOP ENDS HERE -->
+                </div>
+            </div>
+            <!-- ENDS HERE -->
+
+            <!-- META SEO SECTION -->
+            <div class="col-md-6 will100">
+                <div class="card h-100 bg-light">
+                    <div class="card-header bg-green text-center">
+                        <h4 class="mb-0">Metadata SEO</h4>
+                    </div>
+                    <div class="p-2">
+                        <form action="" method="POST">  {%csrf_token%}
+                            <div class="mb-3">
+                                <label for="">Title</label>
+                                {{optimization_form.title}} 
+                            </div>
+                            <div class="my-3">
+                                <label for="">Description</label>
+                                {{optimization_form.description}}
+                            </div>
+                            <div class="mt-3">
+                                <label for="">Tags</label>
+                                {{optimization_form.tags}}
+                            </div>
+                            <input type="submit" class="btn btn-success px-4" value="SAVE" name="save" id="saveBtn" style="display:none"> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ENDS HERE -->
+
+
+            <!-- OPTIMIZATION SECTION (RIGHT) -->
+            <div class="col-md-3 will100">
+                <div class="card bg-light h-100">
+                    <div class="card-header bg-green text-center">
+                        <h4 class="mb-0">Optimization Strentgh</h4>
+                    </div>
+                    <div class="p-2">
+                      
+                      <div id="gauge-container" style="visibility: null;">
+                        <div class="gauge">
+                            <div class="gauge__body">
+                              <div class="gauge__fill" style="visibility: hidden;"></div>
+                              <div class="gauge__cover"></div>
+                            </div>
+                          </div>
+                    </div>
+                        </div>
+                        
+                        <ul class="mt-3 text-starts">
+                            <li class="fs-13" id="first-point">
+                                Copy & Paste your title in the first line of your description
+                            </li>
+                            <li class="fs-13">
+                              Add anything to your life e.g. "2021"
+                          </li>
+                            <li class="fs-13">
+                                What is your video about? write in the description
+                            </li>
+                            <li class="fs-13" id="partial-matches">
+                                Use partial matches in your title and description
+                            </li>
+                            <li class="fs-13" id="50-words">
+                                Write up to 50 words
+                            </li>
+                            <li class="fs-13" id="relevantTags">
+                                Use releavant tags (use add button below)
+                            </li>
+                        </ul> 
+
+                          <p id="getTagsFunc" style="display: none;">{{suggested}}</p>
+                
+                        <form action="">
+                        
+                            <textarea name="tags" class="form-control" id="theTags" cols="30" rows="3">                                                           
+                            </textarea>
+                            <div class="text-end mt-3">
+                                <a class="btn btn-info" id="addBtn" onclick="addtoTags()">ADD</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ENDS HERE -->
+
+            <div class="col-12 mt-4">
+                <div class="text-end">
+                  <form action="{% url 'main:view_current_opt'%}" style="display: none;"> 
+                    <input id="viewBtn" type="submit" class="btn btn-danger px-4" value="VIEW" name="ViewThumbnails" onclick="getMeta()"> <br>
+                    <textarea name="opt_title" id="opt_title" cols="20" rows="1" style="display: None;"></textarea>
+                    <textarea name="opt_description" id="opt_description" cols="20" rows="1" style="display: None ;"></textarea>
+                    <textarea name="opt_tags" id="opt_tags" cols="20" rows="1" style="display: None;"></textarea>        
+                  </form> 
+                    <button class="btn btn-success px-4" id="decoySaveBtn" onclick=" saveBtnClick()">SAVE</button> 
+                    <button class="btn btn-danger px-4" id="decoyViewBtn" onclick=" viewBtnClick()">VIEW</button> 
+
+                </div>
+            </div>
         </div>
-  </div>
-
-        <div id="data-display">
-          {% for searchVolume in search_volume %}
-          Search Volume - <p id="id_searchVolume">{{searchVolume}}</p>  <br>
-            {% endfor %}
-
-          <p id="diff_data">Difficulty - {{UKC}} </p>
-          <p id="trends-data">  The total view count of the top 20 videos for this keyword is {{UKTV}}
-            {{trends_data}}</p> 
-        </div>
-
-          <div id="related-searches">
-            SUGGESTED SEARCH TERMS:
-            {% for search_term in suggested %}
-                <br>
-                <a href="#"> {{search_term}} </a> 
-                {% endfor %}
-          </div>
-
-          <button onclick="getUserKeyword(); verifySearchValue(); " form="getKeywordForm" id="keyword_btn">Optimize</button>
-
-          Overall Score
-          <p id="overall-score" style="font-size: x-large;"> Overall Score </p>
-
-
-        </div> -->
-
-
-
-    
+     </section>
+    </div>
   
   
   
@@ -288,9 +530,6 @@
           <p style="display: none;" id= 'title_occurance'> {{title_occurance}}</p>
           <p style="display: none;" id="user_keyword">{{user_keyword}}</p>
           <div class="none-display-elements" style="display: none;">
-            <form action="{% url 'main_seo_studio' %}" method="GET" style="display: none;" id="getKeywordForm" name="getKeywordForm">
-              <textarea name="keyword_getter" id="keyword_getter" cols="30" rows="10"></textarea>
-            </form>
   
           <table>
             <tr>
@@ -308,11 +547,12 @@
             </td>
             <td style="display: null;" id="viewCount-{{forloop.counter}}">{{video.viewCount}} </td> 
             </tr>
-               {%endfor%}
+
+            {%endfor%}
+            
             </table>
           </div>
-  
-      
+ 
   <script>
 
     //TURNING EVERYTHING OFF BEFORE USERS SEARCHES A KEYWORD
@@ -320,26 +560,52 @@
 
 
     $(document).ready(function() {
-      var keyword_form = document.getElementById("keyword_form").textContent;
+      var keyword_form = document.getElementById("keyword_form").value;
       console.log(keyword_form)
     if ( keyword_form == "None"){
         document.getElementById("data-display-wrapper").style="display: none;"
     }
     else{document.getElementById("data-display-wrapper").style="display: ;"}   
     document.getElementById("searchedKeyword").innerText = keyword_form
+
+
   
     });
+
+     function offLoader(){
+     document.getElementById("loaderDiv").style="display:none";
+     }
+    document.getElementById("keywordSearch").addEventListener("click", function(){
+    document.getElementById("loaderDiv").style="display:null";
+
+     })
    
+
+     function ShowOpts(){
+     document.getElementById("Opt_wrapper").style="display:null";
+     keyword_form = document.getElementById("keyword_form").value
+
+     document.getElementById("id_title").value=keyword_form
+     document.getElementById("id_description").value=keyword_form
+     document.getElementById("id_tags").value=keyword_form
+
+
+
+
+     }
+    
 
 //GETTING USER KEYWORD
 var user_keyword = document.getElementById("user_keyword").textContent;
 console.log(user_keyword)
 
 //SETTING KEYWORD FORM FOR OPTIMIZATION PAGE ONCLICK
-var keyword_form = document.getElementById("keyword_form")
+
+
+
 
 if (user_keyword != ''){
-  keyword_form.textContent = user_keyword
+  keyword_form.value = user_keyword
 }
     
 //COMPETITION SYNTAX
@@ -404,6 +670,9 @@ if (video_comp <= 0){
 console.log("Competition Algo - "+video_comp)
 
 
+
+
+
 //SEARCH VOLUME ALGORITHM
 var search_algo_value = 0
 
@@ -439,11 +708,62 @@ else if( search_volume <= 100000)
 {
   search_algo_value += 100
 };
+console.log("Search Volume "+ search_volume)
+
+console.log("Search Volume Score "+ search_algo_value)
+
+
+
+// SEARCH VOLUME IN PAGE DISPLAY
+var searchVolumeValue = document.getElementById("searchVolumeValue")
+if(search_algo_value <= 25){
+  searchVolumeValue.innerText = "LOW"
+}
+else if(search_algo_value <= 50){
+  searchVolumeValue.innerText = "NOT BAD"
+}
+else if(search_algo_value <= 75){
+  searchVolumeValue.innerText = "GOOD"
+}
+else if(search_algo_value <= 100){
+  searchVolumeValue.innerText = "ACE"
+}
+console.log("Search Volume Display "+ searchVolumeValue.innerText)
+
+// SEO DIFFICULTY IS THE RATIO OF VIEWS TO SEARCHES
+var seoValue = document.getElementById("SeoValue")
+var getTVC = document.getElementById("totalViewCount").textContent
+var totalViewCount = parseFloat(getTVC)
+
+if ((totalViewCount/20) < search_algo_value){
+    seoValue.innerText = "LOW"
+}
+
+
+else if ((totalViewCount/20) > search_algo_value){
+    seoValue.innerText = "HIGH"
+}
+console.log("SEO DIFFICULTY "+ seoValue.innerText)
+
+
+//COMPETITION VALUE PAGE DISPLAY
+var compValue = document.getElementById("compValue")
+if (video_comp <= 50){
+  compValue.innerText = "HIGH"
+}
+else if (video_comp <= 65){
+  compValue.innerText = "MEDIUM"
+}
+else if (video_comp <= 100){
+  compValue.innerText = "LOW"
+}
+console.log("COMPETITION "+ compValue.innerText)
 
 
 
 
-console.log( "Search Volume Score " + search_algo_value);
+
+
 
 //OVERALL SCORE 
 //The overall score is goping to be subtracted by 100 i.e the higher the overall score the better is it for ranking
@@ -457,14 +777,106 @@ addOverallScore.innerText = overallScore.toString();
 getValue =  document.getElementById("gaugeValue").textContent
 getValue = overallScore;
    
+//COPY SUGGESTED TERMS FUNCTION
 
+function copySuggested(){
+allSuggestions = document.getElementById("all_Suggestions").textContent
+Suggestions = allSuggestions.replace(/[\[\]']+/g,'')
+
+let suggestedTextarea = document.createElement('textarea');
+suggestedTextarea.width = '1px';
+suggestedTextarea.height = '1px';
+suggestedTextarea.textContent = Suggestions;
+document.body.append(suggestedTextarea);
+suggestedTextarea.select();
+document.execCommand('copy');
+suggestedTextarea.style = "display: None"
+
+document.getElementById("copyAllbtn").textContent = "Copied!"
+
+}
   </script>
+
+
+
+
+<!-- //SECOND SECTION JS -->
+<script>
+var getTagsFunc = document.getElementById("getTagsFunc").textContent
+var removeWhiteSpace = getTagsFunc.replace(/[\s()-]+/gi, '')
+var cleanTags = removeWhiteSpace.replace(/[\[\]']+/g,'')
+document.getElementById("theTags").textContent = cleanTags
+console.log(cleanTags)
+//GETTING DATE AND DIFFERENCE
+var dates = []
+var allDateDifference = []
+const date=new Date();
+
+for ( let i=1; i<21; i++){
+    dates[i] =  document.getElementById("date-"+i).textContent
+
+
+
+var now = date.toISOString()
+var dateFormat1 = new Date(dates[i]).toISOString()
+var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+
+var FirstDateInSeconds = Date.parse(dateFormat1);
+var SecondDateInSeconds = Date.now()
+
+//console.log(SecondDateInSeconds)
+
+
+var differenceInTime = SecondDateInSeconds - FirstDateInSeconds
+
+var differenceInDays = differenceInTime / oneDay
+allDateDifference.push(differenceInDays)
+}
+
+
+console.log(allDateDifference)
+
+for (let i=0; i<21; i++){
+
+if (allDateDifference[i] <= 1.5){
+  document.getElementById("video_info-" + (i+1)).style="background-color: #f05252;"
+}
+
+else if (allDateDifference[i] <= 3.5){
+  document.getElementById("video_info-" + (i+1)).style="background-color: Orange;"
+}
+
+else if (allDateDifference[i] <= 5.5){
+  document.getElementById("video_info-" + (i+1)).style="background-color: #f6e67b;"
+}
+
+}
+//ADD TO TAGS FUNCTION
+function addtoTags(){
+document.getElementById("addBtn").textContent = "Added!"
+document.getElementById("id_tags").value = cleanTags 
+document.getElementById("relevantTags").style.textDecoration = "line-through"
+}
+//DYNAMICALLY CLICKING ABUTTON AFTER ANOTHER BUTTON IS CLICKED -- CAUSE CSS IS F'ED
+
+function saveBtnClick(){
+  document.getElementById("saveBtn").click()
+}
+
+function viewBtnClick(){
+  document.getElementById("viewBtn").click()
+}
+
+
+</script>
     <script src="../static/fiverr_jquery/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
     <script src="../static/fiverr_gauge/kuma-gauge.jquery.js"></script>
     <script src="../static/fiverr_js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 
 </body>
 </html>

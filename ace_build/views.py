@@ -1,6 +1,3 @@
-from django.db.models.fields import NullBooleanField
-from django.forms.utils import ErrorDict
-from django.http import request, response
 from django.shortcuts import redirect, render
 import requests
 from . models import Optimization, ThumbnailImage
@@ -8,9 +5,11 @@ from . forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from keyword_tool.views import keyword_tool, Video_data, searchVolume, trends
-import datetime as dt
+from keyword_tool.views import keyword_tool, Video_data, searchVolume
+
 from django.contrib import messages
+
+
 
 
 import base64 
@@ -20,6 +19,12 @@ from django.conf import settings
 
 
 # Create your views here.
+
+def home_page(request):
+
+
+    context = {}
+    return render(request, "home_page.html", context)
 
 
 def register (request):
@@ -77,79 +82,139 @@ def tags_getter (keyword):
 
 
 def home (request):
+    search_volume = None
+    videos = None
+    suggested = None
+    all_keywords = None
+    UKC = None
+    UKTV = None
+    title_occurance = None
+    trends_data = None
+    user_keyword = None
+    tags = None
 
-    video_thumbnails=[]
-    video_tags = []
+       
     all_keywords = []
-    if request.method=='POST':
-        if request.POST.get("Search"):
-            user_keyword_holder =  request.POST.get('keyword_form')
-            user_keyword = user_keyword_holder.strip()
+    if request.method=='GET':
+        if request.GET.get("Search"):
+            user_keyword_holder =  request.GET.get('keyword_form')
+            user_keyword = str(user_keyword_holder).strip()
 
             if user_keyword:
                 search_volume = searchVolume(user_keyword)
                 suggested = tags_getter(user_keyword)
                 all_keywords.append(suggested)
                 videos = Video_data(user_keyword)
+
                 # UKC stands for "User Keyword Competiton" result
                 # and UKTV stands for "User Keyword Total View Count" result
                 UKC, UKTV, title_occurance = keyword_tool(user_keyword)
 
-                # for video in videos:
-                #     thumbnail = video["thumbnail"]
-                #     video_thumbnails.append(thumbnail)
-                # print(video_thumbnails)
-                trends_data = trends(user_keyword)
-                
 
-        
-    else:
-        search_volume = None
-        videos = None
-        suggested = None
-        all_keywords = None
-        UKC = None
-        UKTV = None
-        title_occurance = None
-        trends_data = None
-        user_keyword = None
-       
-        
-    
+    optimization_form = Optimization_form
+    if request.method == 'POST':
+        if request.POST.get('save'):
+            if request.user.is_authenticated:
+                optimization_form = Optimization_form(request.POST, request.FILES)
+                if optimization_form.is_valid():
+                    user_title = optimization_form.cleaned_data["title"]
+                    user_description = optimization_form.cleaned_data["description"]
+                    user_tags = optimization_form.cleaned_data["tags"]
+                    
+                    opt = Optimization(title=user_title, description=user_description, tags=user_tags)
+                    opt.save()
+                    request.user.optimization.add(opt)
+            else:
+                messages.info(request, "You need to be Logged in to save your optimization")
+                messages.info(request, "You can still view your optimization by going back and clicking 'View' ")
+
+            return redirect('/main/all_opts')
         
     context = {
         'videos': videos, 'suggested': suggested, 'UKTV':UKTV, 'UKC':UKC, "title_occurance": title_occurance,
-        'trends_data': trends_data, 'user_keyword': user_keyword, 'search_volume':search_volume}
+        'trends_data': trends_data, 'user_keyword': user_keyword, 'search_volume':search_volume, 'tags':tags, 'optimization_form': optimization_form}
     return render(request, "home.html", context) 
 
+    
+    
+def main_seo_studio (request):
+    display_videos = []
+    #Calling the keyword Explore function
 
+    #Getting Suggested keywords and pasting them as tags
+    tags = None
+    keyword = request.GET['keyword_getter']
 
-def thumbnails(request):
-    all_titles = []
-    all_thumbnails = []
-    all_viewcounts = []
+    transfered_data = {
+    'display_titles': request.post.GET['transferTitle'],
+    'display_tags' : request.post.GET['transferTags'],
+    'display_viewCount': request.post.GET['transferviewCount'],
+    'display_dates': request.post.GET['transferDates'] 
+    }
 
+    display_videos.append(transfered_data) 
 
+    testTitles =  request.post.GET['transferTitle']
+    print(testTitles)
+
+    #This is the keyword reseacrh "Dummy" form
+    keyword_research_form = Keyword_Research_form
+
+    #This is the optimization form containiing Title, Description and Tags
+    optimization_form = Optimization_form
     if request.method == 'POST':
+        if request.POST.get('save'):
+            if request.user.is_authenticated:
+                optimization_form = Optimization_form(request.POST, request.FILES)
+                if optimization_form.is_valid():
+                    user_title = optimization_form.cleaned_data["title"]
+                    user_description = optimization_form.cleaned_data["description"]
+                    user_tags = optimization_form.cleaned_data["tags"]
+                    
+                    opt = Optimization(title=user_title, description=user_description, tags=user_tags)
+                    opt.save()
+                    request.user.optimization.add(opt)
+            else:
+                messages.info(request, "You need to be Logged in to save your optimization")
+                messages.info(request, "You can still view your optimization by going back and clicking 'View' ")
 
-        user_keyword_holder =  request.POST.get('keyword_form')
-        user_keyword = user_keyword_holder.strip()
+            return redirect('/main/all_opts')
 
-        videos = Video_data(user_keyword)
+        #Testing the request methods where it identifies what button is clicked and responds to each differently!
+            
+    context ={
+    "keyword_research_form": keyword_research_form,
+     "optimization_form": optimization_form,
+     "tags": tags,
+     "keyword": keyword,
+     "display_videos": display_videos
+     }
+    return render (request, 'main_seo_studio.html', context)
 
-    else:
-        videos = None
+#IF USER IS NOT OPTIMIZING FROM MAIN PAGE AFTER KEYWORD RESEARCH, LET THEM USE THIS PAGE
+def seo_studio (request):
 
+    form = Optimization_form()
+    if request.method == 'POST':
+        if request.POST.get('save'):
+            if request.user.is_authenticated:
+                form = Optimization_form(request.POST, request.FILES)
+                if form.is_valid():
+                    user_title = form.cleaned_data["title"]
+                    user_description = form.cleaned_data["description"]
+                    user_tags = form.cleaned_data["tags"]
+                    opt = Optimization(title=user_title, description=user_description, tags=user_tags)
+                    opt.save()
+                    request.user.optimization.add(opt)
+                return redirect('/main/all_opts')
+            else:
+                messages.info(request, "You need to be Logged in to save your optimization")
+                messages.info(request, "You can still view your optimization by going back and clicking 'View' ")
+                return redirect('/main/login')
        
-    context = {"videos": videos}
-    return render(request, "thumbnails.html", context)
 
-
-def test_view1(request):
-
-    context = {}
-    return render(request, 'test_view.html', context)
-
+    context = {'form': form}
+    return render (request, "seo_studio.html", context)
 
 def view_current_opt (request):
   
@@ -170,68 +235,6 @@ def view_current_opt (request):
     context = {"title": title, "description": description, "tags": tags}
     return render (request, "view_current_opt.html", context)
 
-    
-    
-def main_seo_studio (request):
-    #Calling the keyword Explore function
-
-    #Getting Suggested keywords and pasting them as tags
-    keyword = request.GET['keyword_getter']
-
-
-    if keyword != '':
-        tags = tags_getter(keyword)
-        videos = Video_data(keyword)
-    else:
-        return redirect('/main/seo_studio')
-
-    #This is the keyword reseacrh "Dummy" form
-    keyword_research_form = Keyword_Research_form
-
-    #This is the optimization form containiing Title, Description and Tags
-    optimization_form = Optimization_form
-    if request.method == 'POST':
-        if request.POST.get('save'):
-            if request.user.is_authenticated:
-                optimization_form = Optimization_form(request.POST, request.FILES)
-                if optimization_form.is_valid():
-                    optimization_form.save()
-            else:
-                messages.info(request, "You need to be Logged in to save your optimization")
-                messages.info(request, "You can still view your optimization by going back and clicking 'View' ")
-
-            return redirect('/main/all_opts')
-
-        #Testing the request methods where it identifies what button is clicked and responds to each differently!
-        if request.POST.get('testbutton'):
-            return redirect('/main/all_opts')
-            
-
-    context ={
-    "keyword_research_form": keyword_research_form,
-     "optimization_form": optimization_form,
-     "tags": tags,
-     "keyword": keyword,
-     "videos": videos
-     }
-    return render (request, 'main_seo_studio.html', context)
-
-#IF USER IS NOT OPTIMIZING FROM MAIN PAGE AFTER KEYWORD RESEARCH, LET THEM USE THIS PAGE
-def seo_studio (request):
-
-    form = Optimization_form()
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            form = Optimization_form(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-            return redirect('/main/all_opts')
-        else:
-            messages.info(request, "You need to be Logged in to save your optimization")
-            messages.info(request, "You can still view your optimization by going back and clicking 'View' ")
-
-    context = {'form': form}
-    return render (request, "seo_studio.html", context)
 
 
 #for user to be able to use the edit optimization 
@@ -270,20 +273,9 @@ def YoutubeTemplate(request):
     return  render(request, 'youtubetemplate.html', context)
 
 
-def compare_vid(request, pk):
-
-
-
-    get_opt = Optimization.objects.get(id=pk)
-    
-    opt_title = get_opt.title
-    print(opt_title)
-    
-    try:
-        competition_videos =  test_view1(opt_title)
-    except KeyError:
-        competition_videos = test_view1('Leo Messi')
-
 
     context = {'competition_videos': competition_videos, "get_opt": get_opt}
     return render(request, 'compare_vid.html', context)
+
+def thumbnails(request):
+    return render(request, 'thumbnails.html')

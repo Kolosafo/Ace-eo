@@ -18,6 +18,18 @@ def home_display(request):
     return render(request, 'home_display.html', context)
 
 
+def compare_opt(request, title):
+
+    opt_title = request.GET['opt_title']
+    opt_thumbnail = None
+    videos = Video_data(title)
+
+    context={"videos":videos, "opt_title":opt_title, "opt_thumbnail":opt_thumbnail}
+    return render (request, 'compare_opt.html', context)
+
+
+
+
 def suggested_display(request):
     videos = []
     if request.method == 'POST':

@@ -25,6 +25,8 @@ SECRET_KEY = '2ujjb28lp#_x%=-pktce5=z43k*glu9(q&pvf4w!hqw@o-(^x&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+STATIC_URL = True
+MEDIA_URL=[]
 
 ALLOWED_HOSTS = [
        'localhost',
@@ -129,6 +131,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 STATICFILES_DIRS = [
@@ -136,9 +139,9 @@ STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "thumbnail", "static")
 
 ]
-
-#This key runs from daudakolo16@gmail.com
-YOUTUBE_API_KEY = "AIzaSyDvcwOlbjyFIuenGHS_7gLIlNqtsX95KTg"
+#This key runs from kolosafo@gmail.com
+YOUTUBE_API_KEY = "AIzaSyB1Dpyx3oKo1Vec4lxE_sJGsUiVFnf9qu4"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+ 

@@ -1,29 +1,90 @@
-<style>
-    #Hello-Msg{
-    font-size: 18px;
-    color: #fff;
-    margin-right: 20px;
-    }
-</style>
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="">Kolo</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'home' %}"> Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"> FAQ </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact Us</a>
-        </li>
-      </ul>
-    </div>
-    <span id="Hello-Msg">Hello Sir {{request.user}} </span>
-    <span><a class="Hello-Msg" href="{% url 'logout' %}">Logout</a></span>
-  </nav>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="Syahrizaldev">
+      <link rel="stylesheet" href="{% static '/navbar Obj/reset.min.css' %}">
+      <link rel="stylesheet" href="{% static '/navbar Obj/style.min.css' %}">
+      <link rel="stylesheet" href="{% static '/navbar Obj/ionicon.min.css' %}">
+
+
+      {% comment %} <link rel="stylesheet" type="text/css" href="../static/navbar Obj/reset.min.css">
+      <link rel="stylesheet" type="text/css" href="../static/navbar Obj/style.min.css">
+      <link rel="stylesheet" type="text/css" href="../static/navbar Obj/ionicon.min.css"> {% endcomment %}
+      <style>
+.navLogin {
+  width: 80px;
+  height: 36px;
+  border: 1px solid #e91e63;
+  background: #e91e63;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+      </style>
+   </head>
+
+   <body>
+
+      <!-- Section: Header -->
+      <header class="header"  style="height: 50px;  background-color: white; position: fixed;">
+         <div class="container"  style="height: 50px;">
+            <section class="wrapper"  style="height: 62px;">
+               <h1><a href="{% url 'main:home' %}" style="color: rgba(50, 79, 196, 0.713);" class="brand">Ace-eo</a></h1>
+               <button style="color: black;" type="button" class="opened-menu">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+               </button>
+               <div class="overlay"></div>
+               <nav class="navbar">
+                  <button type="button" class="closed-menu">
+                     <img src="../static/navbar Obj/closed.svg" class="closed-icon" alt="closed">
+                  </button>
+                  <ul class="menu">
+                     <li class="menu-item"><a href="{% url 'main:home' %}" style="color: black;">Home</a></li>
+                     <li class="menu-item menu-item-has-children">
+                        <a href="#" data-toggle="sub-menu" style="color: black;">Pages<i class="expand"></i></a>
+                        <ul class="sub-menu" style="color: black;">
+                           <li class="menu-item" style="color: black;"><a style="color: black;" href="#" >Keyword Research</a></li>
+                           <li class="menu-item"><a href="#" style="color: black;" >Thumbnail Comparison</a></li>
+                           <li class="menu-item"><a href="#" style="color: black;" >SEO Studio</a></li>
+                           <li class="menu-item"><a href="#"  style="color: black;">Profile</a></li>
+                        </ul>
+                     </li>
+                     <li class="menu-item">
+                        <a href="#" style="color: black;">Blog </a>
+                     </li>
+                     <li class="menu-item"><a href="#" style="color: black;">Contact</a></li>
+                     <li class="menu-item"><a href="#" style="color: black;">About</a></li>
+                     <li class="menu-item"><a href="#"></a></li>
+
+                     <li class="menu-item"><a href="#"></a></li>
+                     {% if user.is_authenticated %}
+
+                 
+                     {% else %}
+                     <li class="menu-item"><a href="{% url 'main:login' %}"><input type="submit" value="Log in" class="navLogin" id="navLogin"></a></li>
+
+                     {% endif %}
+
+                  </ul>
+               </nav>
+            </section>
+         </div>
+      </header>
+
+
+
+      <script src="../static/navbar Obj/script.js" defer></script>
+   </body>
+
+</html>
+
