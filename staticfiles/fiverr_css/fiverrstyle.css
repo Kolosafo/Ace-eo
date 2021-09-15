@@ -1,0 +1,170 @@
+.fa.fa-question-circle.fs-14.text-dark-50 {
+	font-size: 14px;
+	vertical-align: middle;
+	color: grey;
+	margin-left: 5px;
+	position: relative;
+	top: -2px;
+}
+h4 {
+	font-size: 17px;
+	font-weight: bold;
+}
+.condition {
+	background: #CDF8E4;
+	padding: 5px;
+	font-size: 14px;
+	vertical-align: middle;
+	position: relative;
+	top: -2px;
+	left: 10px;
+	font-weight: 600;
+	border: 1px solid #35D3A0;
+	border-radius: 4px;
+}
+.container{
+    max-width: 95%;
+}
+.card-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+td{
+    vertical-align: middle !important;
+}
+.fs-20{
+    font-size: 20px;
+}
+.text-danger{
+    color: red !important;
+}
+.btn.ml-3.d-inline-block.btn-danger {
+	margin-left: 10px;
+	background: red;
+	border-color: red;
+	border-radius: 0;
+	padding: 5px;
+	vertical-align: middle;
+	position: relative;
+	top: -2px;
+}
+.btn.btn-info {
+	background: #2FD29D;
+	border: #2FD29D;
+	border-radius: 0;
+	padding: 3px 5px;
+	color: white;
+	line-height: 20px;
+	margin-left: 10px;
+}
+.btn.btn-success.text-uppercase.btn-block {
+	background: #88C99D;
+	color: black;
+	font-weight: bold;
+	display: block !important;
+	border: 1px solid black;
+	border-radius: 5px !important;
+	width: 100%;
+}
+.bg-green {
+	background: #57B6B3;
+}
+.fs-13{
+    font-size: 13px;
+}
+.js-gauge.demo.m-auto rect {
+	fill: #F8F9FA;
+}
+.js-gauge.demo.m-auto .gauge__center {
+	fill: #F8F9FA;
+}
+.searchField {
+	width: 450px;
+	height: 95vh;
+	max-width: 100%;
+	background-color: white;
+	margin: auto;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.bg-pink{
+    background: #B37979;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@media screen and (max-width:1200px){
+	h4 {
+		font-size: 14px;
+		font-weight: bold;
+	}
+}
+
+@media screen and (max-width:992px){
+	.stat {
+		display: block;
+	}
+	.btn.ml-3.d-inline-block.btn-danger {
+		margin-top: 10px;
+		margin-left: 0;
+		width: 100%;
+		padding: 5px;
+	}
+	#gauge-0.m-auto svg {
+		position: relative;
+		left: -32px !important;
+		overflow: hidden !important;
+	}
+	.col-4 {
+		text-align: right;
+		flex: 0 0 19%;
+	}
+	.col-md-6 {
+		margin-top: 10px;
+	}
+	.col-md-3 {
+		margin-top: 10px;
+	}
+	.searchField.p-2 .col-4 {
+		flex: 0 0 auto;
+	}
+}
+
+@media screen and (max-width:769px){
+	.will100 {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+}
+
+@media screen and (max-width:767px){
+	.col-md-6.m-auto {
+		text-align: center;
+	}
+	.table.mt-4 img {
+		width: 180px;
+	}
+	.btn.btn-success.text-uppercase.btn-block {
+		margin-top: 20px;
+	}
+	.searchField {
+		width: 450px;
+		height: 95vh;
+		max-width: 95%;
+		background-color: white;
+		margin: auto;
+		overflow-y: scroll;
+		overflow-x: hidden;
+	}
+}
+
+@media screen and (max-width:576px){
+	.table.mt-4 img {
+		width: 380px !important;
+	}
+}
