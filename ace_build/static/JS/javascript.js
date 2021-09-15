@@ -4,7 +4,7 @@
 //If all instructions are cleared, Let optimization score be 100%
 
     console.log("Hi")
-    console.log("Refreshed")
+    console.log("Working up")
 
  
 //  THIS FUNCTION WORKS ONINPUT!!!!
@@ -55,10 +55,16 @@ function strikeoff(){
 
 
     //HERE WE MAKE THE PROGRAM STRIKE OFF 'Write upt to 50 Words'
+    console.log("Cache checker")
     if (desc_length >= 50){
       document.getElementById("50-words").style = "text-decoration: line-through";
     }
     else{document.getElementById("50-words").style = "text-decoration: None";}
+
+    if (desc_length >= 20){
+      document.getElementById("20-words").style = "text-decoration: line-through";
+    }
+    else{document.getElementById("20-words").style = "text-decoration: None";}
     
 
 
@@ -88,8 +94,7 @@ return matches
 };
 
 const P_match = algo(each_desc_textContent)
-console.log(P_match)
-console.log(title_split)
+
  
 
 
@@ -99,7 +104,7 @@ console.log(title_split)
 
      
     //THE METER GAUGE JS
-const gaugeElement = document.querySelector(".gauge");
+const gaugeElement = document.querySelector(".Seo_gauge");
 
 function setGaugetextContent(gauge, textContent) {
   

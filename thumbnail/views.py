@@ -12,17 +12,21 @@ def home_display(request):
             user_keyword = user_keyword_holder.strip()
 
             videos = Video_data(user_keyword)
+    else:
+        user_keyword = None
         
-    context = {"videos": videos}
+    context = {"videos": videos, 'user_keyword':user_keyword}
 
     return render(request, 'home_display.html', context)
 
 
-def compare_opt(request, title):
-
-    opt_title = request.GET['opt_title']
+def compare_opt(request):
+    try:
+        opt_title = request.GET['opt_title']
+    except:
+        opt_title = "Hello sir"
     opt_thumbnail = None
-    videos = Video_data(title)
+    videos = Video_data(opt_title)
 
     context={"videos":videos, "opt_title":opt_title, "opt_thumbnail":opt_thumbnail}
     return render (request, 'compare_opt.html', context)

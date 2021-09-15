@@ -29,7 +29,7 @@ padding: 20px;
         <center>
           <div class="image__title">{{opt.title}}</div>
         </center>
-        <form action="{% url 'thumbnail:compare_opt' opt.title %}">
+        <form action="{% url 'thumbnail:compare_opt' %}">
           <textarea style="display: none;" name="opt_title" id="opt_title" cols="30" rows="10">{{opt.title}}</textarea>
          <input type="submit" value="Compare">
         </form> 

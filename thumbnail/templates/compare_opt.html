@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,26 +10,26 @@
     />
     <meta name="description" content="Askbootstrap" />
     <meta name="author" content="Askbootstrap" />
-    <title>Youtube</title>
-
-    <link rel="icon" type="image/x-icon"  href="../static/img/favicon.ico"/>
+       <title>Youtube</title>
 
 
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon"  href="{% static 'img/favicon.ico' %}">
+
+    <link href="{%static 'css/bootstrap.min.css' %}" rel="stylesheet"  type="text/css">
+
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
 
 
 
 
 
-    <link
-      href="../static/css/all.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
 
-    <link rel="stylesheet" type="text/css" href="../static/css/osahan.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/owl.theme.css">
+    <link href="{%static 'css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'css/osahan.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'css/owl.carousel.css' %}" rel="stylesheet" type="text/css">
+    <link href="{%static 'css/owl.theme.css' %}" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
      <!-- Bootstrap CSS -->
@@ -38,10 +39,12 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
  
      <!-- tagify -->
-     <link rel="stylesheet" href="../static/fiverr_tagify/tagify.css">
+    <link href="{%static 'fiverr_tagify/tagify.css' %}" rel="stylesheet" type="text/css">
+
  
      <!-- style css -->
-     <link rel="stylesheet" href="../static/fiverr_css/fiverrstyle.css">
+    <link href="{%static 'fiverr_css/fiverrstyle.css' %}" rel="stylesheet" type="text/css">
+
   </head>
   <style>
   .video-item-title {
@@ -62,6 +65,26 @@ width: 244px !important;
 font-weight: 500;
 font-size: 12px;
 color: #ff263a;
+}
+
+@media (max-aspect-ratio: 16/9){
+  #featuredSec{
+    display: none;
+  }
+  #suggestedSec{
+    display: none;
+  }
+  #sidebar_wrapper{
+    display: none;
+  }
+
+  #mobileView{
+    width: 400px;
+    height: 100;
+  }
+  #YTsearch_form{
+    transform: translate(-17%, 5%);
+  }
 }
 
 
@@ -87,32 +110,13 @@ color: #ff263a;
       <a class="navbar-brand mr-1" href="#"
         >ACE-EO</a>
 
-  <form
-  method="POST"
-    class="
-      d-none d-md-inline-block
-      form-inline
-      ml-auto
-      mr-0 mr-md-5
-      my-2 my-md-0
-      osahan-navbar-search
-    "
-    style="transform: translate(-80%, 0%);"
-  >  {% csrf_token %}
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Enter a keyword or title" name="keyword_form" id="keyword_form" />
-      <div class="input-group-append">
-        <input class="btn btn-light" type="submit" name="Search" id="Search">
-      </div>
-    </div>
-  </form>
 
-  <p id="opt_title"> {{ opt_title }} </p> 
+  <p id="opt_title" style="display: none;"> {{ opt_title }} </p> 
 
    
     </nav>
     <div id="wrapper">
-      <ul class="sidebar navbar-nav">
+      <ul class="sidebar navbar-nav" id="sidebar_wrapper">
         <li class="nav-item active">
           <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-home"></i>
@@ -141,27 +145,12 @@ color: #ff263a;
         <div class="container-fluid pb-0">
           <div class="top-mobile-search">
             <div class="row">
-              <div class="col-md-12">
-                <form class="mobile-search">
-                  <div class="input-group">
-                    <input
-                      type="text"
-                      placeholder="Search for..."
-                      class="form-control"
-                    />
-                    <div class="input-group-append">
-                      <button type="button" class="btn btn-dark">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
+           
             </div>
           </div>
          
          
-          <section class="pb-4">
+          <section class="pb-4" id="featuredSec">
             <div>
               <div class="main-title mb-4">
                 <div class="btn-group float-right right-action">
@@ -172,16 +161,20 @@ color: #ff263a;
 
 
                <!-- This is the Thumbnail Input field -->
-    <input accept="image/*" type='file' id="imgInp"/> 
+               <center>
+                <input accept="image/*" type='file' id="imgInp"/> 
 
-    <div id="imageContainer" class="col-lg-3 col-md-6">
-    
-      <div class="image-preview" id="imagePreview" >
-        <img src="" alt="Image Preview" class="image-preview__image" id="previewImg_id" style="width: 243.16px; height: 135.53px; ">
-        <span class="image-preview__default-text"> Image Preview</span>
-      </div>
-    </div>
-    
+                <div id="imageContainer" class="col-lg-3 col-md-6">
+                
+                  <div class="image-preview" id="imagePreview" >
+                    <img src="" alt="Image Preview" class="image-preview__image" id="previewImg_id" style="width: 243.16px; height: 135.53px; ">
+                    <br> <span class="image-preview__default-text" style="color: orangered;">  Import Your Thumbnail </span>
+                    <br>
+                  </div>
+                </div>
+                
+               </center>
+   
     <!-- That ends here -->
 
 
@@ -237,8 +230,9 @@ color: #ff263a;
 
      <!-- SUGGESTED VIDEOS VIEW -->
 
+   <section id="suggestedSec" style="display: null;">
     <center>  <h2> Suggested Video View </h2>  </center>
-     <section>
+    
 
         <div>
             <div class="main-title mb-4">
@@ -391,7 +385,7 @@ color: #ff263a;
                                   </div>
                                   <div class="video-title">
                                     <a href="#"
-                                      > {{ opt_title }}
+                                      > {{ video.title }}
                                       </a
                                     >
                                   </div>
@@ -406,7 +400,7 @@ color: #ff263a;
                                       ><i class="fas fa-check-circle text-success"></i
                                     ></a>
                                   </div>
-                                  <div class="video-view" style="display: none;">
+                                  <div class="video-view">
                                     {{ video.viewCount }} views &nbsp;<i class="fas fa-calendar-alt"></i>
                                     11 Months ago
                                   </div>

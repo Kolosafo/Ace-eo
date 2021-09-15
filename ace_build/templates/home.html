@@ -37,6 +37,12 @@
   transform: translate(5%, 130%);
 }
 @media (min-aspect-ratio: 16/9){
+  .resultDisplay{
+ display: flex;
+ flex-direction: row;
+ flex-wrap: nowrap;
+ justify-content: center;
+}
   .mobileBTN{
     display: none;
   }
@@ -78,14 +84,18 @@
 @media (max-aspect-ratio: 16/9){
   body {
   background-image: url(../static/images/mobile_display.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+
 
   }
-	#gauge-0{
-		position: absolute;
+	#gauge-1{
+		/* position: absolute;
 		left: 50%;
 		top: 50%;
-		-webkit-transform: translate(-50%, -50%);
-		transform: translate(-50%, -50%);
+		-webkit-transform: translate(-50%, -50%); */
+		transform: translate(27%, -0%);
 	  }
     .mobileBTN{
     width: 150px;
@@ -178,6 +188,8 @@
   transform: translate(0%, 2000%);
 }
 
+
+
 </style>
 
 
@@ -197,7 +209,7 @@
  <center>
    <div class="formDiv">
     <form action="" method="GET"> 
-      <input type="text" id="keyword_form" name="keyword_form" placeholder="Type In a Title or Keyword To Begin">
+     <input type="text" id="keyword_form" name="keyword_form" placeholder="Type In a Title or Keyword To Begin">
       <input type="submit" id="keywordSearch" value="Search" name="Search"> 
   </form>
    </div>
@@ -227,7 +239,9 @@
           </div>
 
           <div class="row mt-4">
-              <div class="col-lg-3 col-md-6 p-2">
+            <div class="resultDisplay">
+
+              <div  class="col-lg-3 col-md-6 p-2">
                   <div class="card">
                       <div class="card-body">
                         {% for searchVolume in search_volume %}
@@ -260,6 +274,7 @@
                       </div>
                   </div>
               </div>
+            </div>
          
               <div class="mobileBTN">
                 <div class="col-md-2 mt-auto">
@@ -279,7 +294,7 @@
                   </td>
                   <td class="border-0 bg-light ps-5">
                       <p class="mb-0 fs-20">
-                          You might get suggested next to one of the videos below by copying their tags and title (Do this if you feel both your contents are on <a href="" class="text-danger">same topic</a> )
+                        The most searched phrases on YouTube start with "How To". If you want to rank on Search, you should consider using this as well.
                       </p>
                   </td>
               </tr>
@@ -379,7 +394,8 @@
                 </td>
                 <td class="border-0 bg-light ps-5">
                     <p class="mb-0 fs-20">
-                        You might get suggested next to one of the videos below by copying their tags and title (Do this if you feel both your contents are on <a href="" class="text-danger">same topic</a> )
+                      Some videos below have a colored background ranging from Green to Red, this is an indication of how old the video is. The darker the Red, the newer the video. <br> 
+                      You might get suggested next to a new video by copying their tags and title (ONLY do this if you feel both your contents are on <a href="#" style="color: red;">same topic</a> ) 
                     </p>
                 </td>
             </tr>
@@ -460,7 +476,7 @@
                     <div class="p-2">
                       
                       <div id="gauge-container" style="visibility: null;">
-                        <div class="gauge">
+                        <div class="Seo_gauge">
                             <div class="gauge__body">
                               <div class="gauge__fill" style="visibility: hidden;"></div>
                               <div class="gauge__cover"></div>
@@ -473,10 +489,10 @@
                             <li class="fs-13" id="first-point">
                                 Copy & Paste your title in the first line of your description
                             </li>
-                            <li class="fs-13">
-                              Add anything to your life e.g. "2021"
+                            <li class="fs-13" id="addSomething">
+                              Add something to your life e.g. "2021"
                           </li>
-                            <li class="fs-13">
+                            <li class="fs-13" id="20-words">
                                 What is your video about? write in the description
                             </li>
                             <li class="fs-13" id="partial-matches">
@@ -867,6 +883,11 @@ function viewBtnClick(){
   document.getElementById("viewBtn").click()
 }
 
+//STRIKE OFF ADD SOMETHING ON INPUT
+
+document.getElementById("id_title").addEventListener("input", function(){
+  document.getElementById("addSomething").style = "text-decoration: line-through;";
+});
 
 </script>
     <script src="../static/fiverr_jquery/jquery.min.js"></script>

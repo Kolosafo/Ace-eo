@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,9 +30,7 @@ STATIC_URL = True
 MEDIA_URL=[]
 
 ALLOWED_HOSTS = [
-       'localhost',
-   '.ngrok.io',
-    '127.0.0.1'
+'*'
 ]
 
 
@@ -86,8 +85,12 @@ WSGI_APPLICATION = 'ace.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Ace_DB',
+        'USER': 'postgres',
+        'PASSWORD': 'Kolosafo1',
+        'HOST': 'localhost',
+        'PORT': '5000'
     }
 }
 
@@ -144,4 +147,5 @@ YOUTUBE_API_KEY = "AIzaSyB1Dpyx3oKo1Vec4lxE_sJGsUiVFnf9qu4"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+django_heroku.settings(locals())
  
