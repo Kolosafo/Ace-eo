@@ -25,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '2ujjb28lp#_x%=-pktce5=z43k*glu9(q&pvf4w!hqw@o-(^x&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 STATIC_URL = True
 MEDIA_URL=[]
 
 ALLOWED_HOSTS = [
-'*'
+'ace-eo.herokuapp.com', '127.0.0.1'
 ]
 
 
