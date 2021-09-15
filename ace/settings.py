@@ -147,5 +147,5 @@ YOUTUBE_API_KEY = "AIzaSyB1Dpyx3oKo1Vec4lxE_sJGsUiVFnf9qu4"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-django_heroku.settings(locals())
+
  
