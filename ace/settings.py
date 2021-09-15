@@ -29,9 +29,7 @@ STATIC_URL = True
 MEDIA_URL=[]
 
 ALLOWED_HOSTS = [
-       'localhost',
-   '.ngrok.io',
-    '127.0.0.1'
+'*'
 ]
 
 
@@ -86,8 +84,12 @@ WSGI_APPLICATION = 'ace.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Ace_DB',
+        'USER': 'postgres',
+        'PASSWORD': 'Kolosafo1',
+        'HOST': 'localhost',
+        'PORT': '5000'
     }
 }
 

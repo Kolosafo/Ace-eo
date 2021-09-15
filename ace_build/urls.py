@@ -3,6 +3,7 @@ from . views import *
 from django.conf import settings
 from django.conf.urls.static import static
 app_name = 'main'
+handler403 = handler403
 urlpatterns = [
     path('', home_page, name="home_page"),
     path('register', register, name="register"),

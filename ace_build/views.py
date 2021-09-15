@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 import requests
 from . models import Optimization, ThumbnailImage
 from . forms import *
@@ -6,9 +6,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from keyword_tool.views import keyword_tool, Video_data, searchVolume
+from ratelimit.decorators import ratelimit
+from ratelimit.exceptions import Ratelimited 
 
 from django.contrib import messages
-
 
 
 
@@ -19,6 +20,7 @@ from django.conf import settings
 
 
 # Create your views here.
+
 
 def home_page(request):
 
@@ -80,7 +82,7 @@ def tags_getter (keyword):
     #print(splitTags)
     return splitTags
 
-
+@ratelimit(key='ip', method=ratelimit.ALL, rate='10/d', block=True)
 def home (request):
     search_volume = None
     videos = None
@@ -129,7 +131,7 @@ def home (request):
                 messages.info(request, "You can still view your optimization by going back and clicking 'View' ")
 
             return redirect('/main/all_opts')
-        
+         
     context = {
         'videos': videos, 'suggested': suggested, 'UKTV':UKTV, 'UKC':UKC, "title_occurance": title_occurance,
         'trends_data': trends_data, 'user_keyword': user_keyword, 'search_volume':search_volume, 'tags':tags, 'optimization_form': optimization_form}
@@ -279,3 +281,9 @@ def YoutubeTemplate(request):
 
 def thumbnails(request):
     return render(request, 'thumbnails.html')
+
+    
+def handler403(request, exception=None):
+    if isinstance(exception, Ratelimited):
+        return HttpResponse("You've exhausted your daily requests, play some games and come back tomorrow :)", status=429)
+    return HttpResponse('Forbidden')

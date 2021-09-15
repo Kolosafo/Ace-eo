@@ -8,7 +8,7 @@ app_name = 'thumbnail'
 urlpatterns = [
      path('', home_display, name="home_display"),
      path('suggested/', suggested_display, name="suggested"),
-     path('compare/<str:title>/', compare_opt, name="compare_opt"),
+     path('compare/', compare_opt, name="compare_opt"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
