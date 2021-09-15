@@ -30,6 +30,7 @@ STATIC_URL = True
 MEDIA_URL=[]
 
 ALLOWED_HOSTS = [
+
 'ace-eo.herokuapp.com', '127.0.0.1'
 ]
 
