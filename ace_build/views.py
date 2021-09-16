@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from keyword_tool.views import keyword_tool, Video_data, searchVolume
-from ratelimit.decorators import ratelimit
+from ratelimit.decorators import ratelimit, Ratelimited
 from ratelimit.exception import RateLimitException
 
 from django.contrib import messages
@@ -284,6 +284,6 @@ def thumbnails(request):
 
     
 def handler403(request, exception=None):
-    if isinstance(exception, RateLimitException):
+    if isinstance(exception, Ratelimited):
         return HttpResponse("You've exhausted your daily requests, play some games and come back tomorrow :)", status=429)
     return HttpResponse('Forbidden')
