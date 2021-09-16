@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from keyword_tool.views import keyword_tool, Video_data, searchVolume
-from ratelimit.decorators import ratelimit
+from ratelimit.decorators import *
 from ratelimit.exception import RateLimitException
 
 from django.contrib import messages
