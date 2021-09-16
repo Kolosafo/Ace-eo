@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from keyword_tool.views import keyword_tool, Video_data, searchVolume
+from ratelimit.decorators import ratelimit
 from ratelimit.exception import RateLimitException
 
 from django.contrib import messages
@@ -81,6 +82,7 @@ def tags_getter (keyword):
     #print(splitTags)
     return splitTags
 
+@ratelimit(key='ip', method=ratelimit.ALL, rate='10/d', block=True)
 def home (request):
     search_volume = None
     videos = None
@@ -281,3 +283,7 @@ def thumbnails(request):
     return render(request, 'thumbnails.html')
 
     
+def handler403(request, exception=None):
+    if isinstance(exception, RateLimitException):
+        return HttpResponse("You've exhausted your daily requests, play some games and come back tomorrow :)", status=429)
+    return HttpResponse('Forbidden')
