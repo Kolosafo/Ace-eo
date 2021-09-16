@@ -1,0 +1,56 @@
+
+/*Resize the wrap to see the search bar change!*/
+
+.wrap{
+	margin: auto;
+	width: 50%;
+	overflow: hidden;
+	
+}
+.wrap input,button{
+	width:75%;
+	border:2px solid white;
+	border-right:0px;
+	font-size: 18px;
+	padding:12px;
+	background-color: transparent;
+	color:white;
+	position: inherit;
+
+	
+}
+.wrap input:hover{
+	opacity: .8;
+}
+.wrap button{
+	width:25%;
+	background-color: #eee;
+	color:black;
+	transition: all 0.3s;
+	float: right;
+	border-left:0px;
+	height: 100%;
+}
+.wrap button:hover{
+	opacity: .8;
+	}
+
+.searchButton{
+	width: 422px;
+	height: 504.67px;
+	}
+   
+
+@media (max-aspect-ratio: 16/9){
+	#gauge-0{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+	  }
+	}
+
+#navbarSection{
+	transform: translate(0%, 250%);
+}
